@@ -1,15 +1,33 @@
 <template>
-  <div>
-    <form class="login" @submit.prevent="login">
-      <h1>Sign in</h1>
-      <label>User name</label>
-      <input required v-model="username" type="text" placeholder="Username"/>
-      <label>Password</label>
-      <input required v-model="password" type="password" placeholder="Password"/>
-      <hr/>
-      <button type="submit">Login</button>
-    </form>
-    <p v-if="isLoading">Loading ...</p>
+  <div class="container">
+    <div class="form-container">
+      <form class="login" @submit.prevent="login">
+        <div><img src="./../../assets/logo.png" id="logo"></div>
+        <h1>Vous avez déjà un compte ?</h1>
+        <label>Nom d'utilisateur</label>
+        <input
+          required v-model="username"
+          type="text"
+          placeholder="Username"
+          :class="{disabled: isLoading}"
+          :disabled="isLoading"
+        />
+        <label>Mot de passe</label>
+        <input
+          required v-model="password"
+          type="password"
+          placeholder="Password"
+          :class="{disabled: isLoading}"
+          :disabled="isLoading"
+        />
+        <hr/>
+        <button type="submit" v-show="!isLoading">Connexion</button>
+        <div class="loader" v-show="isLoading"></div>
+        <p>Pas encore de compte ?
+          <router-link to="Register">Inscrivez-vous !</router-link>
+        </p>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -41,11 +59,4 @@ export default {
 }
 </script>
 
-<style>
-  .login {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    padding: 10px;
-  }
-</style>
+<style scoped src="./login.css"></style>

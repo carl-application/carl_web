@@ -14,6 +14,15 @@
       <div class="list-item">
         <div class="list-item-left">
           <p class="stats-number">1260</p>
+          <p class="stats-title">Visites cette semaine</p>
+        </div>
+        <div class="list-item-right">
+          <img src="../../../assets/icon_customers.png">
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="list-item-left">
+          <p class="stats-number">3800</p>
           <p class="stats-title">Visites ce mois-ci</p>
         </div>
         <div class="list-item-right">
@@ -46,7 +55,7 @@ export default {}
     flex: 1;
     margin: 5px;
     display: flex;
-    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     padding: 15px;
     border-radius: 10px;
     justify-content: space-between;

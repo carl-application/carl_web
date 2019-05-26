@@ -6,6 +6,7 @@ import Authenticated from '../components/authenticated/Authenticated'
 import Login from '../components/login/Login'
 import Dashboard from '../components/authenticated/dashboard/Dashboard'
 import Notifications from '../components/authenticated/notifications/Notifications'
+import Register from '../components/register/Register'
 
 Vue.use(Router)
 
@@ -59,6 +60,12 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+      beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register,
       beforeEnter: ifNotAuthenticated
     }
   ]
