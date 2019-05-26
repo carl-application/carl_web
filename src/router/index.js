@@ -4,6 +4,8 @@ import store from '../store'
 import Home from '../components/home/Home'
 import Authenticated from '../components/authenticated/Authenticated'
 import Login from '../components/login/Login'
+import Dashboard from '../components/authenticated/dashboard/Dashboard'
+import Notifications from '../components/authenticated/notifications/Notifications'
 
 Vue.use(Router)
 
@@ -34,7 +36,24 @@ export default new Router({
       path: '/authenticated',
       name: 'Authenticated',
       component: Authenticated,
-      beforeEnter: ifAuthenticated
+      beforeEnter: ifAuthenticated,
+      children: [
+        {
+          path: '',
+          component: Dashboard
+        },
+        {
+          path: '/dashboard',
+          name: 'Dashboard',
+          component: Dashboard,
+          beforeEnter: ifAuthenticated
+        },
+        {
+          path: '/notifications',
+          name: 'Notifications',
+          component: Notifications,
+          beforeEnter: ifAuthenticated
+        }]
     },
     {
       path: '/login',
