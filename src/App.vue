@@ -1,23 +1,36 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <div class="main-container">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'App'
+  components: {},
+  name: 'app',
+  created: function () {
+    if (this.$store.getters.isAuthenticated) {
+      this.$router.push('Authenticated')
+    } else {
+      this.$router.push('Login')
+    }
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  color: #2e426b;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 </style>

@@ -1,15 +1,46 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import store from '../store'
+import Home from '../components/home/Home'
+import Authenticated from '../components/authenticated/Authenticated'
+import Login from '../components/login/Login'
 
 Vue.use(Router)
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/')
+}
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/login')
+}
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/authenticated',
+      name: 'Authenticated',
+      component: Authenticated,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      beforeEnter: ifNotAuthenticated
     }
   ]
 })
