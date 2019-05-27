@@ -8,15 +8,16 @@ h1 {
   height: 120px;
 }
 
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 .container {
   width: 500px;
   max-height: 600px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
   border-radius: 10px;
   background-color: #f8f9fb;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
@@ -38,7 +39,7 @@ h1 {
 }
 
 .login label {
-  font-size: 22px;
+  font-size: 18px;
   color: #007dfd;
   align-self: start;
   margin-top: 20px;
@@ -46,10 +47,10 @@ h1 {
 }
 
 .login input {
-  height: 40px;
+  height: 20px;
   width: 300px;
-  border-radius: 10px;
-  border-width: 0;
+  border-radius: 5px;
+  border: 1px solid black;
   font-size: 16px;
   color: black;
   padding: 10px;
@@ -89,12 +90,18 @@ h1 {
   color: orange;
 }
 
+.error-credentials {
+  font-size: 14px;
+  color: red;
+}
+
 .loader {
+  border: 2px solid #f3f3f3; /* Light grey */
   border-top: 2px solid #3498db; /* Blue */
   border-radius: 50%;
   width: 28px;
   height: 28px;
-  animation: spin 1s linear infinite;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {

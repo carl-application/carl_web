@@ -1,6 +1,6 @@
 import {AUTH_ERROR, AUTH_LOGOUT, AUTH_REQUEST, AUTH_SUCCESS} from '../actions/auth'
-import apiCall from '../../utils/api'
-import {AUTH_STATUS_ERROR, AUTH_STATUS_INITIAL, AUTH_STATUS_LOADING, AUTH_STATUS_SUCCESS} from '../status/auth'
+import {login} from '../../utils/api'
+import {AUTH_STATUS_ERROR_CREDENTIALS, AUTH_STATUS_INITIAL, AUTH_STATUS_LOADING, AUTH_STATUS_SUCCESS} from '../status/auth'
 import axios from 'axios'
 
 const state = {token: localStorage.getItem('user-token') || '', status: AUTH_STATUS_INITIAL, hasLoadedOnce: false}
@@ -14,11 +14,12 @@ const actions = {
   [AUTH_REQUEST]: ({commit, dispatch}, user) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST)
-      apiCall({url: 'auth', data: user, method: 'POST'})
+      login(user.username, user.password)
         .then(resp => {
-          localStorage.setItem('user-token', resp.token)
-          axios.defaults.headers.common['Authorization'] = resp.token
-          commit(AUTH_SUCCESS, resp)
+          const accessToken = resp['access_token']
+          localStorage.setItem('user-token', accessToken)
+          axios.defaults.headers.common['Authorization'] = accessToken
+          commit(AUTH_SUCCESS, accessToken)
           resolve(resp)
         })
         .catch(err => {
@@ -32,6 +33,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT)
       localStorage.removeItem('user-token')
+      axios.defaults.headers.common['Authorization'] = 'Basic Y29tLmNhcmwucG9zdG1hbjpiYWJ5YmVs'
       resolve()
     })
   }
@@ -41,13 +43,13 @@ const mutations = {
   [AUTH_REQUEST]: (state) => {
     state.status = AUTH_STATUS_LOADING
   },
-  [AUTH_SUCCESS]: (state, resp) => {
+  [AUTH_SUCCESS]: (state, accessToken) => {
     state.status = AUTH_STATUS_SUCCESS
-    state.token = resp.token
+    state.token = accessToken
     state.hasLoadedOnce = true
   },
   [AUTH_ERROR]: (state) => {
-    state.status = AUTH_STATUS_ERROR
+    state.status = AUTH_STATUS_ERROR_CREDENTIALS
     state.hasLoadedOnce = true
   },
   [AUTH_LOGOUT]: (state) => {

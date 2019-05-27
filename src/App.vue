@@ -13,7 +13,7 @@ export default {
   name: 'app',
   created: function () {
     if (this.$store.getters.isAuthenticated) {
-      this.$router.push('Authenticated')
+      this.$router.push('Dashboard')
     } else {
       this.$router.push('Login')
     }
@@ -21,4 +21,4 @@ export default {
 }
 </script>
 
-<style scoped src="./app.css"></style>
+<style src="./app.css"></style>

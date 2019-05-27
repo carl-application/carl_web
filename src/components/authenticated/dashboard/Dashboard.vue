@@ -55,7 +55,7 @@ export default {}
     flex: 1;
     margin: 5px;
     display: flex;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     padding: 15px;
     border-radius: 10px;
     justify-content: space-between;
@@ -73,7 +73,7 @@ export default {}
   .list-item-left .stats-number {
     margin: 0;
     font-size: 22px;
-    color: pink;
+    color: orange;
     font-weight: bold;
   }
 

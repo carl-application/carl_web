@@ -35,7 +35,6 @@ export default new Router({
     },
     {
       path: '/authenticated',
-      name: 'Authenticated',
       component: Authenticated,
       beforeEnter: ifAuthenticated,
       children: [

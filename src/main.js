@@ -4,8 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import axios from 'axios'
 
 Vue.config.productionTip = false
+axios.defaults.headers.common['Authorization'] = 'Basic Y29tLmNhcmwucG9zdG1hbjpiYWJ5YmVs'
+axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'
 
 /* eslint-disable no-new */
 new Vue({
