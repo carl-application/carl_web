@@ -1,6 +1,8 @@
 .container {
   width: 100vm;
   display: flex;
+  height: 200px;
+  justify-content: center;
   flex-direction: column;
   padding: 20px;
 }
@@ -42,4 +44,17 @@
   font-size: 18px;
   color: black;
   font-weight: bold;
+}
+
+.pie-container {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.pie {
+  width: 180px;
+  height: 180px;
+  margin-top: 50px;
 }
