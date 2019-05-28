@@ -66,6 +66,10 @@ export default new Router({
       name: 'Register',
       component: Register,
       beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: '*',
+      redirect: 'Home'
     }
   ]
 })

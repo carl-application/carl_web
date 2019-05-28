@@ -1,6 +1,6 @@
-h1 {
+h2 {
   font-size: 28px;
-  color: black;
+  color: white;
 }
 
 #logo {
@@ -15,21 +15,12 @@ h1 {
   height: 100vh;
 }
 
-.container {
-  width: 500px;
-  max-height: 600px;
-  border-radius: 10px;
-  background-color: #f8f9fb;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-}
-
 .form-container {
   display: flex;
   height: 100%;
-  margin: 20px;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .login {
@@ -38,21 +29,16 @@ h1 {
   align-items: center;
 }
 
-.login label {
-  font-size: 18px;
-  color: #007dfd;
-  align-self: start;
-  margin-top: 20px;
-  margin-bottom: 5px;
-}
-
 .login input {
-  height: 20px;
+  height: 25px;
   width: 300px;
-  border-radius: 5px;
-  border: 1px solid black;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  border-width: 0;
   font-size: 16px;
-  color: black;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.30);
+  text-align: center;
   padding: 10px;
 }
 
@@ -64,34 +50,43 @@ h1 {
   outline: none;
 }
 
-.login button {
-  background-color: #007dfd;
-  border-width: 0;
-  width: 80px;
-  height: 30px;
-  border-radius: 5px;
+.login p {
   color: white;
+  font-size: 16px;
+  margin-top: 0;
 }
 
-.login button:hover {
-  cursor: pointer;
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1;
+  text-align: center;
 }
 
-.login button:focus {
-  outline: none;
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+  text-align: center;
 }
 
-.login button:active {
-  outline: none;
-  background-color: #f8f9fb;
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+  text-align: center;
+}
+
+.loader-container {
+  height: 60px;
+  margin-top: 40px;
+}
+
+button {
+  margin-top: 30px;
 }
 
 .login a {
-  color: orange;
+  color: white;
 }
 
-.error-credentials {
-  font-size: 14px;
+.login .error-credentials {
+  font-size: 18px;
   color: red;
 }
 

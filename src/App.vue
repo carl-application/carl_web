@@ -10,12 +10,12 @@
 
 export default {
   components: {},
-  name: 'app',
+  name: 'App',
   created: function () {
     if (this.$store.getters.isAuthenticated) {
       this.$router.push('Dashboard')
     } else {
-      this.$router.push('Login')
+      this.$router.push('Home')
     }
   }
 }

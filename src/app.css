@@ -20,6 +20,38 @@ ul {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.blue-gradient-background {
+  background: linear-gradient(#007dfd, #0047fa);
+}
+
+.white-button {
+  height: 50px;
+  background-color: white;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 30px;
+  color: #005ffb;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.white-button:active {
+  background-color: whitesmoke;
+}
+
+.white-button:hover {
+  cursor: pointer;
+}
+
+.white-button:focus {
+  outline: none;
 }
