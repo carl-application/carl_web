@@ -41,7 +41,7 @@ export default {
   name: 'login',
   data () {
     return {
-      username: 'thomas@gmail.com',
+      username: 'midipile@gmail.com',
       password: 'totoro'
     }
   },

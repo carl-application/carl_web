@@ -18,7 +18,7 @@ const actions = {
         .then(resp => {
           const accessToken = resp['access_token']
           localStorage.setItem('user-token', accessToken)
-          axios.defaults.headers.common['Authorization'] = accessToken
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
           commit(AUTH_SUCCESS, accessToken)
           resolve(resp)
         })

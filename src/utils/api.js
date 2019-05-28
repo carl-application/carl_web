@@ -1,10 +1,5 @@
 import axios from 'axios'
-import {API_LOGIN_URL} from './api-routes'
-
-const mocks = {
-  'auth': {'POST': {token: 'This-is-a-mocked-token'}},
-  'user/me': {'GET': {name: 'doggo', title: 'sir'}}
-}
+import {API_GET_TOTAL_CUSTOMERS_COUNT_URL, API_GET_VISITS_COUNT_URL, API_LOGIN_URL} from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
   axios.post(API_LOGIN_URL, `username=${username}&password=${password}&grant_type=password`)
@@ -16,16 +11,27 @@ const login = (username, password) => new Promise((resolve, reject) => {
     })
 })
 
-const apiCall = ({url, method, ...args}) => new Promise((resolve, reject) => {
-  setTimeout(() => {
-    try {
-      resolve(mocks[url][method || 'GET'])
-      console.log(`Mocked '${url}' - ${method || 'GET'}`)
-      console.log('response: ', mocks[url][method || 'GET'])
-    } catch (err) {
-      reject(new Error(err))
-    }
-  }, 1000)
+const getVisitsCountForDate = (date) => new Promise((resolve, reject) => {
+  const params = {
+    date: date
+  }
+  axios.get(API_GET_VISITS_COUNT_URL, {params})
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
 })
 
-export {apiCall, login}
+const getTotalCustomersCount = (date) => new Promise((resolve, reject) => {
+  axios.get(API_GET_TOTAL_CUSTOMERS_COUNT_URL)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+export {login, getVisitsCountForDate, getTotalCustomersCount}

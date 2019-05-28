@@ -10,6 +10,11 @@ Vue.config.productionTip = false
 axios.defaults.headers.common['Authorization'] = 'Basic Y29tLmNhcmwucG9zdG1hbjpiYWJ5YmVs'
 axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'
 
+if (localStorage.getItem('user-token')) {
+  const accessToken = localStorage.getItem('user-token')
+  axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
