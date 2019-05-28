@@ -1,31 +1,33 @@
 <template>
   <div class="container">
     <div class="list">
-      <div class="list-item">
-        <div class="list-item-left" v-show="isVisitsCountLoading">
-          <div class="loader"></div>
+      <div class="bloc-list-item">
+        <div class="list-item">
+          <div class="list-item-left" v-show="isVisitsCountLoading">
+            <div class="loader"></div>
+          </div>
+          <div class="list-item-left" v-show="!isVisitsCountLoading">
+            <p class="stats-title">Visites aujourd'hui</p>
+            <p class="stats-number">{{visitsCount}}</p>
+          </div>
+          <div class="list-item-right">
+            <img src="../../../../assets/icon_customers.png">
+          </div>
         </div>
-        <div class="list-item-left" v-show="!isVisitsCountLoading">
-          <p class="stats-number">{{visitsCount}}</p>
-          <p class="stats-title">Visites aujourd'hui</p>
-        </div>
-        <div class="list-item-right">
-          <img src="../../../../assets/icon_customers.png">
+        <div class="list-item">
+          <div class="list-item-left" v-show="isTotalCustomersLoading">
+            <div class="loader"></div>
+          </div>
+          <div class="list-item-left" v-show="!isTotalCustomersLoading">
+            <p class="stats-number">{{customersCount}}</p>
+            <p class="stats-title">Clients uniques au total</p>
+          </div>
+          <div class="list-item-right">
+            <img src="../../../../assets/icon_customers.png">
+          </div>
         </div>
       </div>
-      <div class="list-item">
-        <div class="list-item-left" v-show="isTotalCustomersLoading">
-          <div class="loader"></div>
-        </div>
-        <div class="list-item-left" v-show="!isTotalCustomersLoading">
-          <p class="stats-number">{{customersCount}}</p>
-          <p class="stats-title">Clients uniques au total</p>
-        </div>
-        <div class="list-item-right">
-          <img src="../../../../assets/icon_customers.png">
-        </div>
-      </div>
-      <div class="pie-container" v-show="!isSexParityLoading">
+      <!--<div class="pie-container" v-show="!isSexParityLoading">
         <div class="pie-legend">
           <p>Hommes: {{menCount}}</p>
           <p>Femmes: {{womenCount}}</p>
@@ -34,7 +36,7 @@
         <div class="pie">
           <pie :chartData="dataCollection" :options="charOptions"></pie>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
