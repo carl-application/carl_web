@@ -1,49 +1,72 @@
 <template>
   <div class="panel-blue">
-    <div class="panel">
+    <div class="content">
       <h1>Hello, Midi pile.</h1>
       <p class="subtitle">Voici votre dashboard</p>
-      <AnalyticsCards></AnalyticsCards>
+    </div>
+    <div class="panel">
+      <div class="card-visits"><AnalyticsCard class="card"/></div>
+      <div class="card-customers"><AnalyticsCard class="card"/></div>
+      <div class="card-stats"><AnalyticsCard class="card"/></div>
     </div>
   </div>
 </template>
 
 <script>
-import AnalyticsCards from './analytics_cards/AnalyticsCards.vue'
+import AnalyticsCard from './analytics_cards/AnalyticsCard.vue'
 
 export default {
-  components: {AnalyticsCards}
+  components: {AnalyticsCard}
 }
 </script>
 
-<style scoped>
-.panel-blue {
-  position: absolute;
-  top: 0;
-  left: 25%;
-  right: 0;
-  bottom: 30%;
-  background: linear-gradient(#007dfd, #0047fa);
-  border-radius: 0 0 0 200px;
-}
-.panel {
-  background-color: transparent;
-  height: 100%;
-  padding-left: 10%;
-  display: flex;
-  align-items: start;
-  flex-direction: column;
-}
+<style scoped lang="sass">
+.panel-blue
+  position: absolute
+  top: 0
+  left: 25%
+  right: 0
+  bottom: 30%
+  background: linear-gradient(#007dfd, #0047fa)
+  border-radius: 0 0 0 200px
 
-.panel h1 {
-  color: white;
-  font-size: 40px;
-  margin: 40px 0 0 0;
-}
+  .content
+    padding: 100px
 
-.panel p {
-  color: white;
-  font-size: 20px;
-  margin-bottom: 10%;
-}
+  h1
+    color: white
+    font-size: 40px
+    margin: 0
+
+  p
+    color: white
+    font-size: 20px
+    margin-bottom: 10%
+
+.panel
+  align-items: start
+  background-color: transparent
+  display: flex
+  flex-flow: column wrap
+  position: absolute
+  bottom: -100px
+  left: 100px
+  height: 350px
+
+  .card
+    height: 100%
+    margin-right: 40px
+
+  .card-visits
+    box-sizing: border-box
+    flex-basis: 50%
+    padding-bottom: 20px
+
+  .card-customers
+    box-sizing: border-box
+    flex-basis: 50%
+    padding-top: 20px
+
+  .card-stats
+    flex-basis: 100%
 </style>
