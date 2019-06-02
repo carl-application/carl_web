@@ -17,15 +17,15 @@
       <div class="card-customers">
         <AnalyticsCard
           class="card"
-          title="Nombre de clients"
+          title="Nombre de clients au total"
           :value-retriever="coloi2"
           tooltip-label-singular="Client"
           tooltip-label-plural="Clients"
         />
       </div>
-      <!--<div class="card-stats">
-        <AnalyticsCard class="card"/>
-      </div>-->
+      <div class="card-stats">
+        <sex-stats></sex-stats>
+      </div>
     </div>
   </div>
 </template>
@@ -33,8 +33,9 @@
 <script>
 import AnalyticsCard from './analytics_cards/AnalyticsCard.vue'
 import {getVisitsCountForDate, getTotalCustomersCount} from '../../../utils/api'
+import SexStats from './analytics_cards/pie/SexStats'
 export default {
-  components: {AnalyticsCard},
+  components: {AnalyticsCard, SexStats},
   methods: {
     coloi (date) {
       return getVisitsCountForDate(date)
