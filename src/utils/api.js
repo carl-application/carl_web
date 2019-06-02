@@ -25,12 +25,16 @@ const getVisitsCountForDate = (date) => new Promise((resolve, reject) => {
       resolve(response)
     })
     .catch((error) => {
+      console.log(`error gettinf visits count`)
       reject(error)
     })
 })
 
 const getTotalCustomersCount = (date) => new Promise((resolve, reject) => {
-  axios.get(API_GET_TOTAL_CUSTOMERS_COUNT_URL)
+  const params = {
+    date: date
+  }
+  axios.get(API_GET_TOTAL_CUSTOMERS_COUNT_URL, {params})
     .then((response) => {
       resolve(response)
     })

@@ -5,6 +5,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+
+library.add(faPlus, faMinus)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 axios.defaults.headers.common['Authorization'] = 'Basic Y29tLmNhcmwucG9zdG1hbjpiYWJ5YmVs'
@@ -20,6 +26,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })
