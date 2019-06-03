@@ -9,7 +9,7 @@
         <AnalyticsCard
           class="card"
           title="Visites d'aujourd'hui"
-          :value-retriever="coloi"
+          :value-retriever="visitsCountForDate"
           tooltip-label-singular="Visite"
           tooltip-label-plural="Visites"
         />
@@ -18,7 +18,7 @@
         <AnalyticsCard
           class="card"
           title="Nombre de clients au total"
-          :value-retriever="coloi2"
+          :value-retriever="totalCUstomersCount"
           tooltip-label-singular="Client"
           tooltip-label-plural="Clients"
         />
@@ -38,14 +38,15 @@ import AnalyticsCard from './analytics_cards/AnalyticsCard.vue'
 import {getVisitsCountForDate, getTotalCustomersCount} from '../../../utils/api'
 import SexStats from './analytics_cards/pie/SexStats'
 import MonthsStats from './analytics_cards/months_chart/MonthChart'
+import Scroller from 'vue-scroller'
 
 export default {
-  components: {AnalyticsCard, SexStats, MonthsStats},
+  components: {AnalyticsCard, SexStats, MonthsStats, Scroller},
   methods: {
-    coloi (date) {
+    visitsCountForDate (date) {
       return getVisitsCountForDate(date)
     },
-    coloi2 (date) {
+    totalCUstomersCount (date) {
       return getTotalCustomersCount(date)
     }
   }
