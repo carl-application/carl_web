@@ -39,10 +39,6 @@ export default new Router({
       beforeEnter: ifAuthenticated,
       children: [
         {
-          path: '',
-          component: Dashboard
-        },
-        {
           path: '/dashboard',
           name: 'Dashboard',
           component: Dashboard,
@@ -65,6 +61,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register,
+      beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: '*',
+      redirect: '/',
       beforeEnter: ifNotAuthenticated
     }
   ]
