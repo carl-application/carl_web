@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {
   API_GET_TOTAL_CUSTOMERS_COUNT_URL,
+  API_GET_VISITS_COUNT_ON_LAST_MONTHS,
   API_GET_VISITS_COUNT_URL,
   API_LOGIN_URL,
   API_SEX_PARITY_COUNT_URL
@@ -25,7 +26,18 @@ const getVisitsCountForDate = (date) => new Promise((resolve, reject) => {
       resolve(response)
     })
     .catch((error) => {
-      console.log(`error gettinf visits count`)
+      console.log(`error getting visits count`)
+      reject(error)
+    })
+})
+
+const getVisitsCountForLastMonths = (date) => new Promise((resolve, reject) => {
+  axios.get(API_GET_VISITS_COUNT_ON_LAST_MONTHS)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      console.log(`error getting visits count`)
       reject(error)
     })
 })
@@ -53,4 +65,4 @@ const getSexParity = () => new Promise((resolve, reject) => {
     })
 })
 
-export {login, getVisitsCountForDate, getTotalCustomersCount, getSexParity}
+export {login, getVisitsCountForDate, getVisitsCountForLastMonths, getTotalCustomersCount, getSexParity}

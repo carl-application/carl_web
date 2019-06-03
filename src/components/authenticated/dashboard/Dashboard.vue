@@ -26,6 +26,9 @@
       <div class="card-stats">
         <sex-stats></sex-stats>
       </div>
+      <div class="card-stats">
+        <months-stats></months-stats>
+      </div>
     </div>
   </div>
 </template>
@@ -34,8 +37,10 @@
 import AnalyticsCard from './analytics_cards/AnalyticsCard.vue'
 import {getVisitsCountForDate, getTotalCustomersCount} from '../../../utils/api'
 import SexStats from './analytics_cards/pie/SexStats'
+import MonthsStats from './analytics_cards/months_chart/MonthChart'
+
 export default {
-  components: {AnalyticsCard, SexStats},
+  components: {AnalyticsCard, SexStats, MonthsStats},
   methods: {
     coloi (date) {
       return getVisitsCountForDate(date)
@@ -97,4 +102,5 @@ export default {
 
       .card-stats
         flex-basis: 100%
+        margin-right: 40px
 </style>
