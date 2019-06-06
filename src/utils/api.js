@@ -4,7 +4,8 @@ import {
   API_GET_VISITS_COUNT_ON_LAST_MONTHS,
   API_GET_VISITS_COUNT_URL,
   API_LOGIN_URL,
-  API_SEX_PARITY_COUNT_URL
+  API_SEX_PARITY_COUNT_URL,
+  API_GET_AGES_REPARTITION
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -65,4 +66,14 @@ const getSexParity = () => new Promise((resolve, reject) => {
     })
 })
 
-export {login, getVisitsCountForDate, getVisitsCountForLastMonths, getTotalCustomersCount, getSexParity}
+const getAgesRepartition = () => new Promise((resolve, reject) => {
+  axios.get(API_GET_AGES_REPARTITION)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+export {login, getVisitsCountForDate, getVisitsCountForLastMonths, getTotalCustomersCount, getSexParity, getAgesRepartition}

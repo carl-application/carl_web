@@ -27,6 +27,9 @@
         <sex-stats></sex-stats>
       </div>
       <div class="card-stats">
+        <ages-stats></ages-stats>
+      </div>
+      <div class="card-stats">
         <months-stats></months-stats>
       </div>
     </div>
@@ -38,10 +41,11 @@ import AnalyticsCard from './analytics_cards/AnalyticsCard.vue'
 import {getVisitsCountForDate, getTotalCustomersCount} from '../../../utils/api'
 import SexStats from './analytics_cards/pie/SexStats'
 import MonthsStats from './analytics_cards/months_chart/MonthChart'
+import AgesStats from './analytics_cards/ages_chart/AgesChart'
 import Scroller from 'vue-scroller'
 
 export default {
-  components: {AnalyticsCard, SexStats, MonthsStats, Scroller},
+  components: {AnalyticsCard, SexStats, MonthsStats, AgesStats, Scroller},
   methods: {
     visitsCountForDate (date) {
       return getVisitsCountForDate(date)
