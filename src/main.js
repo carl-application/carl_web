@@ -8,9 +8,7 @@ import axios from 'axios'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-import VueScroller from 'vue-scroller'
 
-Vue.use(VueScroller)
 library.add(faPlus, faMinus)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
