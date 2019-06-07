@@ -62,9 +62,12 @@ export default {
     display: flex
     flex-direction: column
     justify-content: flex-end
+    height: 100%
+      background-color: rebeccapurple
     .sticks
       display: flex
       align-items: baseline
+
       .value
         background-color: #5351fb
         border-radius: 10px 10px 0 0
