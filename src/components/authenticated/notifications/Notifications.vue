@@ -2,7 +2,7 @@
   <div class="panel-blue">
     <div class="content">
       <h1>Notifications</h1>
-      <p class="subtitle">Evoyer une notification à un groupe d'utilsiateur !</p>
+      <p class="subtitle">Evoyer une notification à un groupe d'utilisateur !</p>
       <div class="login">
         <div class="input">
           <input
@@ -10,26 +10,35 @@
             type="text"
             placeholder="Titre"
           />
-          <div class="right">{{getTitleLength}}/30</div>
+          <div class="input-right">{{getTitleLength}}/30</div>
         </div>
         <div class="input">
           <textarea
             required v-model="shortDescription"
             placeholder="Courte description"></textarea>
-          <div class="right">{{getshortDescriptionLength}}/60</div>
+          <div class="textarea-right">{{getshortDescriptionLength}}/60</div>
         </div>
+        <div class="input">
+          <textarea
+            required v-model="description"
+            placeholder="Description"></textarea>
+          <div class="textarea-right">{{getDescriptionLength}}/300</div>
+        </div>
+        <campaign-selector id="campaign-selector"></campaign-selector>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import CampaignSelector from './CampaignSelector'
 export default {
+  components: {CampaignSelector},
   data () {
     return {
       title: '',
-      shortDescription: ''
+      shortDescription: '',
+      description: ''
     }
   },
   computed: {
@@ -38,24 +47,50 @@ export default {
     },
     getshortDescriptionLength () {
       return this.shortDescription.length
+    },
+    getDescriptionLength () {
+      return this.description.length
     }
   }
 }
 </script>
 
 <style scoped lang="sass">
+
+  #campaign-selector
+    width: 500px
+  .content
+    display: flex
+    flex-direction: column
+  .subtitle
+    margin: 0
+  .login input:focus
+    outline: none
+  .login textarea:focus
+    outline: none
+
   .input
     display: flex
-    align-items: center
     margin-bottom: 10px
-    .right
+    .input-right
       padding: 10px
       display: flex
       justify-content: center
       align-items: center
-      background-color: white
+      background-color: #f8f9fb
       border-radius: 0 10px 10px 0
       height: 40px
+      width: 50px
+
+    .textarea-right
+     padding: 10px
+     display: flex
+     justify-content: center
+     align-items: center
+     background-color: #f8f9fb
+     border-radius: 0 10px 10px 0
+     height: 60px
+     width: 50px
 
   .login input
     height: 40px
@@ -64,7 +99,7 @@ export default {
     border-width: 0
     font-size: 16px
     color: black
-    background-color: white
+    background-color: #f8f9fb
     padding: 10px
 
   .login textarea
@@ -74,7 +109,8 @@ export default {
     border-width: 0
     font-size: 16px
     color: black
-    background-color: white
+    background-color: #f8f9fb
+    resize: none
     padding: 10px
 
   .panel-blue
@@ -98,7 +134,7 @@ export default {
     p
       color: white
       font-size: 20px
-      margin-bottom: 10%
+      margin-bottom: 30px
 
     .panel
       overflow: hidden

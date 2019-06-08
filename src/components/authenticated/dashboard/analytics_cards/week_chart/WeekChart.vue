@@ -63,7 +63,6 @@ export default {
     flex-direction: column
     justify-content: flex-end
     height: 100%
-      background-color: rebeccapurple
     .sticks
       display: flex
       align-items: baseline
