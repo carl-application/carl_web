@@ -113,7 +113,7 @@ export default {
       campaignPeriodStart: null,
       campaignPeriodEnd: null,
       campaignSexes: {
-        men: false,
+        men: true,
         women: false,
         np: false
       },
@@ -152,7 +152,7 @@ export default {
       this.campaignPeriodStart = null
       this.campaignPeriodEnd = null
       this.campaignSexes = {
-        men: false,
+        men: true,
         women: false,
         np: false
       }

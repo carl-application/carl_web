@@ -7,7 +7,8 @@ import {
   API_GET_VISITS_COUNT_URL,
   API_LOGIN_URL,
   API_SEX_PARITY_COUNT_URL,
-  API_CREATE_CAMPAIGN
+  API_CREATE_CAMPAIGN,
+  API_SEND_NOTIFICATION
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -107,6 +108,22 @@ const createCampaign = (name, men, women, np, ageMin, ageMax, visitedPeriodStart
     })
 })
 
+const sendNotification = (targetCampaignId, title, shortDescription, description) => new Promise((resolve, reject) => {
+  const params = {
+    targetCampaignId: targetCampaignId,
+    title: title,
+    shortDescription: shortDescription,
+    description: description
+  }
+  axios.post(API_SEND_NOTIFICATION, null, {params})
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -115,5 +132,6 @@ export {
   getSexParity,
   getAgesRepartition,
   getCampaigns,
-  createCampaign
+  createCampaign,
+  sendNotification
 }

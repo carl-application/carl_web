@@ -9,11 +9,12 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {faPlus, faMinus, faArrowCircleDown} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import VModal from 'vue-js-modal'
+import Notifications from 'vue-notification'
 
 library.add(faPlus, faMinus, faArrowCircleDown)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VModal)
-
+Vue.use(Notifications)
 Vue.config.productionTip = false
 axios.defaults.headers.common['Authorization'] = 'Basic Y29tLmNhcmwucG9zdG1hbjpiYWJ5YmVs'
 axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'

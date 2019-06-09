@@ -39,6 +39,7 @@
 
 <script>
 import CampaignSelector from './CampaignSelector'
+import {sendNotification} from './../../../utils/api'
 export default {
   components: {CampaignSelector},
   data () {
@@ -67,12 +68,14 @@ export default {
       this.selectedCampaignId = id
     },
     send () {
+      if (this.loading) return
+
       if (!this.title || !this.shortDescription || !this.description) {
         this.error = 'Tous les champs doivent être renseignés'
         return
       }
 
-      if (!this.selectedCampaignId) {
+      if (!this.selectedCampaignId || isNaN(this.selectedCampaignId)) {
         this.error = 'Aucune audience n\'a été séléctionnée'
         return
       }
@@ -94,7 +97,48 @@ export default {
 
       this.error = null
       this.loading = true
-      console.log('ok')
+
+      sendNotification(
+        parseInt(this.selectedCampaignId),
+        this.title,
+        this.shortDescription,
+        this.description
+      ).then((response) => {
+        if (response.data.success) {
+          this.notifySuccess(response.data.nbMatchedUsers)
+        } else {
+          this.notifyError()
+        }
+        this.clear()
+      }).catch((error) => {
+        console.error(error)
+        this.notifyError()
+        this.clear()
+      })
+    },
+    notifySuccess (nbMatchedUsers) {
+      this.$notify({
+        group: 'notifications',
+        type: 'success',
+        duration: '8000',
+        title: 'Succès de l\'envoi',
+        text: `La notification a correctement été envoyée aux ${nbMatchedUsers} utilisateurs ciblés !`
+      })
+    },
+    notifyError () {
+      this.$notify({
+        group: 'notifications',
+        type: 'error',
+        duration: '5000',
+        title: 'Echec de l\'envoi',
+        text: 'La notification n\'a pas correctement été envoyée'
+      })
+    },
+    clear () {
+      this.loading = false
+      this.title = ''
+      this.shortDescription = ''
+      this.description = ''
     }
   }
 }
