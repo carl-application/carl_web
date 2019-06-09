@@ -6,3 +6,4 @@ export const API_SEX_PARITY_COUNT_URL = `${API_BASE_URL}/business/analytics/cust
 export const API_GET_VISITS_COUNT_ON_LAST_MONTHS = `${API_BASE_URL}/business/analytics/visits`
 export const API_GET_AGES_REPARTITION = `${API_BASE_URL}/business/analytics/ages`
 export const API_GET_CAMPAIGNS = `${API_BASE_URL}/business/campaigns`
+export const API_CREATE_CAMPAIGN = `${API_BASE_URL}/business/campaigns`

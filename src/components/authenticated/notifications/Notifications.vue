@@ -16,7 +16,7 @@
           <textarea
             required v-model="shortDescription"
             placeholder="Courte description"></textarea>
-          <div class="textarea-right">{{getshortDescriptionLength}}/60</div>
+          <div class="textarea-right">{{getShortDescriptionLength}}/60</div>
         </div>
         <div class="input">
           <textarea
@@ -24,7 +24,7 @@
             placeholder="Description"></textarea>
           <div class="textarea-right">{{getDescriptionLength}}/300</div>
         </div>
-        <campaign-selector id="campaign-selector"></campaign-selector>
+        <campaign-selector id="campaign-selector" @selected="campaignSelected"></campaign-selector>
       </div>
     </div>
   </div>
@@ -45,11 +45,16 @@ export default {
     getTitleLength () {
       return this.title.length
     },
-    getshortDescriptionLength () {
+    getShortDescriptionLength () {
       return this.shortDescription.length
     },
     getDescriptionLength () {
       return this.description.length
+    }
+  },
+  methods: {
+    campaignSelected (id) {
+      console.log(`Campaign id = ${id}`)
     }
   }
 }

@@ -6,7 +6,8 @@ import {
   API_GET_VISITS_COUNT_ON_LAST_MONTHS,
   API_GET_VISITS_COUNT_URL,
   API_LOGIN_URL,
-  API_SEX_PARITY_COUNT_URL
+  API_SEX_PARITY_COUNT_URL,
+  API_CREATE_CAMPAIGN
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -87,6 +88,25 @@ const getCampaigns = () => new Promise((resolve, reject) => {
     })
 })
 
+const createCampaign = (name, men, women, np, ageMin, ageMax, visitedPeriodStart, visitedPeriodEnd) => new Promise((resolve, reject) => {
+  axios.post(API_CREATE_CAMPAIGN, {
+    name: name,
+    men: men,
+    women: women,
+    np: np,
+    ageMin: ageMin,
+    ageMax: ageMax,
+    visitedPeriodStart: visitedPeriodStart,
+    visitedPeriodEnd: visitedPeriodEnd
+  })
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -94,5 +114,6 @@ export {
   getTotalCustomersCount,
   getSexParity,
   getAgesRepartition,
-  getCampaigns
+  getCampaigns,
+  createCampaign
 }
