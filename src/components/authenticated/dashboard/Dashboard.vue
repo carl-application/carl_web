@@ -93,7 +93,7 @@ export default {
     border-radius: 0 0 0 200px
 
     .content
-      padding: 100px
+      padding: 50px
 
     h1
       color: white

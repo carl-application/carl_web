@@ -16,9 +16,13 @@
         <div class="left">
           <h2>Sélectionner une audience</h2>
           <div class="campaigns-container">
+            <div class="empty-campaigns" v-show="!hasCampaigns">
+              <img src="./../../../assets/ic_carl.png" id="logo">
+              <div class="title">Vous n'avez aucune audience pour le moment !</div>
+            </div>
             <div
             class="campaign"
-            v-show="!isLoading"
+            v-show="hasCampaigns"
             v-for="(value, index) in campaigns"
             @click="selectCampaign(index)"
             v-bind:key="index"
@@ -123,6 +127,9 @@ export default {
     },
     isLoading () {
       return this.loading
+    },
+    hasCampaigns () {
+      return this.campaigns && this.campaigns.length > 0
     }
   },
   methods: {
@@ -144,6 +151,11 @@ export default {
       this.campaignAgeMax = null
       this.campaignPeriodStart = null
       this.campaignPeriodEnd = null
+      this.campaignSexes = {
+        men: false,
+        women: false,
+        np: false
+      }
     },
     fetchCampaigns () {
       getCampaigns()
@@ -281,6 +293,7 @@ export default {
     align-items: center
     padding: 10px
     width: 100%
+    color: white
     height: 40px
     background-color: #ffa214
     border-radius: 10px
@@ -306,10 +319,25 @@ export default {
       padding: 10px
       h2
         color: white
+
       .campaigns-container
         overflow: scroll
         width: 90%
+        height: 100%
         padding: 5px
+        .empty-campaigns
+          display: flex
+          flex-direction: column
+          justify-content: center
+          align-items: center
+          height: 100%
+          img
+            width: 100px
+            height: 100px
+          .title
+            color: white
+            text-align: center
+            font-size: 18px
         .campaign
           height: 80px
           width: 95%

@@ -2,7 +2,7 @@
   <div class="panel-blue">
     <div class="content">
       <h1>Notifications</h1>
-      <p class="subtitle">Evoyer une notification à un groupe d'utilisateur !</p>
+      <p class="subtitle">Envoyez une notification à un groupe d'utilisateur !</p>
       <div class="login">
         <div class="input">
           <input
@@ -25,6 +25,13 @@
           <div class="textarea-right">{{getDescriptionLength}}/300</div>
         </div>
         <campaign-selector id="campaign-selector" @selected="campaignSelected"></campaign-selector>
+        <div class="validation-error">
+          <div class="validation" @click="send">
+            <div v-if="!loading">Envoyer</div>
+            <div class="loader" v-if="loading"></div>
+          </div>
+          <div class="error">{{error}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -38,7 +45,10 @@ export default {
     return {
       title: '',
       shortDescription: '',
-      description: ''
+      description: '',
+      selectedCampaignId: null,
+      loading: false,
+      error: null
     }
   },
   computed: {
@@ -54,69 +64,125 @@ export default {
   },
   methods: {
     campaignSelected (id) {
-      console.log(`Campaign id = ${id}`)
+      this.selectedCampaignId = id
+    },
+    send () {
+      if (!this.title || !this.shortDescription || !this.description) {
+        this.error = 'Tous les champs doivent être renseignés'
+        return
+      }
+
+      if (!this.selectedCampaignId) {
+        this.error = 'Aucune audience n\'a été séléctionnée'
+        return
+      }
+
+      if (this.title.length > 30) {
+        this.error = 'Le titre ne peut exceder 30 caractères'
+        return
+      }
+
+      if (this.shortDescription.length > 60) {
+        this.error = 'La courte description ne peut exceder 60 caractères'
+        return
+      }
+
+      if (this.description.length > 300) {
+        this.error = 'La description ne peut exceder 300 caractères'
+        return
+      }
+
+      this.error = null
+      this.loading = true
+      console.log('ok')
     }
   }
 }
 </script>
 
 <style scoped lang="sass">
-
+  .panel
+    position: absolute
+    bottom: -100px
+  .validation
+    width: 100px
+    height: 40px
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 30px
+    text-align: center
+    margin-top: 10px
+    background-color: #007dfd
+    font-size: 14px
+    color: white
+    .loader
+      height: 10px
+      width: 10px
+  .validation:hover
+    cursor: pointer
+  .validation:active
+    background-color: #0047fa
   #campaign-selector
+    margin-top: 30px
     width: 500px
   .content
     display: flex
     flex-direction: column
   .subtitle
     margin: 0
-  .login input:focus
-    outline: none
-  .login textarea:focus
-    outline: none
 
-  .input
-    display: flex
-    margin-bottom: 10px
-    .input-right
-      padding: 10px
+  .login
+    position: absolute
+    bottom: -110px
+    input:focus
+      outline: none
+    textarea:focus
+      outline: none
+
+    .input
       display: flex
-      justify-content: center
-      align-items: center
-      background-color: #f8f9fb
-      border-radius: 0 10px 10px 0
+      margin-bottom: 10px
+      .input-right
+        padding: 10px
+        display: flex
+        justify-content: center
+        align-items: center
+        background-color: #f8f9fb
+        border-radius: 0 10px 10px 0
+        height: 40px
+        width: 50px
+
+      .textarea-right
+       padding: 10px
+       display: flex
+       justify-content: center
+       align-items: center
+       background-color: #f8f9fb
+       border-radius: 0 10px 10px 0
+       height: 60px
+       width: 50px
+
+    input
       height: 40px
-      width: 50px
+      width: 500px
+      border-radius: 10px 0 0 10px
+      border-width: 0
+      font-size: 16px
+      color: black
+      background-color: #f8f9fb
+      padding: 10px
 
-    .textarea-right
-     padding: 10px
-     display: flex
-     justify-content: center
-     align-items: center
-     background-color: #f8f9fb
-     border-radius: 0 10px 10px 0
-     height: 60px
-     width: 50px
-
-  .login input
-    height: 40px
-    width: 500px
-    border-radius: 10px 0 0 10px
-    border-width: 0
-    font-size: 16px
-    color: black
-    background-color: #f8f9fb
-    padding: 10px
-
-  .login textarea
-    height: 60px
-    width: 500px
-    border-radius: 10px 0 0 10px
-    border-width: 0
-    font-size: 16px
-    color: black
-    background-color: #f8f9fb
-    resize: none
-    padding: 10px
+    textarea
+      height: 60px
+      width: 500px
+      border-radius: 10px 0 0 10px
+      border-width: 0
+      font-size: 16px
+      color: black
+      background-color: #f8f9fb
+      resize: none
+      padding: 10px
 
   .panel-blue
     position: absolute
@@ -128,7 +194,7 @@ export default {
     border-radius: 0 0 0 200px
 
     .content
-      padding: 100px
+      padding: 50px
 
     h1
       color: white
@@ -176,4 +242,8 @@ export default {
 
     .__panel
       margin-bottom: 20px
+  .error
+    height: 30px
+    color: red
+    margin-top: 15px
 </style>

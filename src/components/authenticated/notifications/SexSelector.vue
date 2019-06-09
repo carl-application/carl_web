@@ -65,6 +65,7 @@ export default {
       text-align: center
       font-size: 12px
       background-color: white
+      color: black
       padding: 10px
       border-radius: 20px
     .item:hover
