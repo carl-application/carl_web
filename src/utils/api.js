@@ -8,7 +8,9 @@ import {
   API_LOGIN_URL,
   API_SEX_PARITY_COUNT_URL,
   API_CREATE_CAMPAIGN,
-  API_SEND_NOTIFICATION
+  API_SEND_NOTIFICATION,
+  API_GET_ALL_IMAGES,
+  API_GET_ALL_LOGOS
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -123,6 +125,26 @@ const sendNotification = (targetCampaignId, title, description) => new Promise((
     })
 })
 
+const getAllImages = () => new Promise((resolve, reject) => {
+  axios.get(API_GET_ALL_IMAGES)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const getAllLogos = () => new Promise((resolve, reject) => {
+  axios.get(API_GET_ALL_LOGOS)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -132,5 +154,7 @@ export {
   getAgesRepartition,
   getCampaigns,
   createCampaign,
-  sendNotification
+  sendNotification,
+  getAllImages,
+  getAllLogos
 }

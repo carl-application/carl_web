@@ -44,7 +44,7 @@
           </div>
           </div>
         </div>
-        <div class="right">
+        <div class="bottom">
           <h2>Créer une audience</h2>
           <input
             required v-model="campaignName"
@@ -372,7 +372,7 @@ export default {
           cursor: pointer
           background-color: #e8e8e8
           box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
-    .right
+    .bottom
       display: flex
       flex-basis: 50%
       flex-direction: column

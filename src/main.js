@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faPlus, faMinus, faArrowCircleDown} from '@fortawesome/free-solid-svg-icons'
+import {faPlus, faMinus, faArrowCircleDown, faTimes} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import VModal from 'vue-js-modal'
 import Notifications from 'vue-notification'
@@ -19,7 +19,7 @@ Vue.use(VueGoogleMaps, {
   }
 })
 
-library.add(faPlus, faMinus, faArrowCircleDown)
+library.add(faPlus, faMinus, faArrowCircleDown, faTimes)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VModal)
 Vue.use(Notifications)
