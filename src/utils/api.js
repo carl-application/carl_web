@@ -108,11 +108,10 @@ const createCampaign = (name, men, women, np, ageMin, ageMax, visitedPeriodStart
     })
 })
 
-const sendNotification = (targetCampaignId, title, shortDescription, description) => new Promise((resolve, reject) => {
+const sendNotification = (targetCampaignId, title, description) => new Promise((resolve, reject) => {
   const params = {
     targetCampaignId: targetCampaignId,
     title: title,
-    shortDescription: shortDescription,
     description: description
   }
   axios.post(API_SEND_NOTIFICATION, null, {params})

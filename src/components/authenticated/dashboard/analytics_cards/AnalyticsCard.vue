@@ -7,7 +7,7 @@
           <font-awesome-icon icon="plus" :style="{ color: 'green', fontSize: '8px'}" v-if="hasProgressed"/>
           <font-awesome-icon icon="minus" :style="{ color: 'red', fontSize: '8px'}" v-else/>
           <p class="stats-evolution" :class="{ 'no-progress': !hasProgressed, 'progress': hasProgressed}">
-            {{evolution}}%</p>
+            {{evolution.toFixed(2)}}%</p>
         </div>
         <p class="stats-number">{{count}}</p>
       </div>

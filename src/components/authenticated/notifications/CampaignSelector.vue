@@ -435,5 +435,4 @@ export default {
       h3
         color: #858997
         font-size: 16px
-        align-self: start
 </style>

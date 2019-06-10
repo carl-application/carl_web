@@ -10,6 +10,14 @@ import {faPlus, faMinus, faArrowCircleDown} from '@fortawesome/free-solid-svg-ic
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import VModal from 'vue-js-modal'
 import Notifications from 'vue-notification'
+import * as VueGoogleMaps from 'vue2-google-maps'
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: process.env.PLACES_API_KEY,
+    libraries: 'places'
+  }
+})
 
 library.add(faPlus, faMinus, faArrowCircleDown)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

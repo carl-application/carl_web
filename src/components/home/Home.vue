@@ -4,7 +4,7 @@
       <img src="../../assets/ic_carl.png"/>
       <h2>Hello, moi c'est Carl</h2>
       <h3>L'assistant de fidélité soucieux de votre vie privée</h3>
-      <button class="white-button">Création de compte</button>
+      <router-link to="Register"><button class="white-button">Création de compte</button></router-link>
       <router-link to="Login" class="link">J'ai déjà un compte</router-link>
     </div>
   </div>

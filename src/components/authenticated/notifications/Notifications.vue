@@ -3,35 +3,27 @@
     <div class="content">
       <h1>Notifications</h1>
       <p class="subtitle">Envoyez une notification à un groupe d'utilisateur !</p>
-      <div class="login">
-        <div class="input">
-          <input
-            required v-model="title"
-            type="text"
-            placeholder="Titre"
-          />
-          <div class="input-right">{{getTitleLength}}/30</div>
+      <div class="input">
+        <input
+          required v-model="title"
+          type="text"
+          placeholder="Titre"
+        />
+        <div class="input-right">{{getTitleLength}}/30</div>
+      </div>
+      <div class="input">
+        <textarea
+          required v-model="description"
+          placeholder="Description"></textarea>
+        <div class="textarea-right">{{getDescriptionLength}}/300</div>
+      </div>
+      <campaign-selector id="campaign-selector" @selected="campaignSelected"></campaign-selector>
+      <div class="validation-error">
+        <div class="validation" @click="send">
+          <div v-if="!loading">Envoyer</div>
+          <div class="loader" v-if="loading"></div>
         </div>
-        <div class="input">
-          <textarea
-            required v-model="shortDescription"
-            placeholder="Courte description"></textarea>
-          <div class="textarea-right">{{getShortDescriptionLength}}/60</div>
-        </div>
-        <div class="input">
-          <textarea
-            required v-model="description"
-            placeholder="Description"></textarea>
-          <div class="textarea-right">{{getDescriptionLength}}/300</div>
-        </div>
-        <campaign-selector id="campaign-selector" @selected="campaignSelected"></campaign-selector>
-        <div class="validation-error">
-          <div class="validation" @click="send">
-            <div v-if="!loading">Envoyer</div>
-            <div class="loader" v-if="loading"></div>
-          </div>
-          <div class="error">{{error}}</div>
-        </div>
+        <div class="error">{{error}}</div>
       </div>
     </div>
   </div>
@@ -45,7 +37,6 @@ export default {
   data () {
     return {
       title: '',
-      shortDescription: '',
       description: '',
       selectedCampaignId: null,
       loading: false,
@@ -55,9 +46,6 @@ export default {
   computed: {
     getTitleLength () {
       return this.title.length
-    },
-    getShortDescriptionLength () {
-      return this.shortDescription.length
     },
     getDescriptionLength () {
       return this.description.length
@@ -70,7 +58,7 @@ export default {
     send () {
       if (this.loading) return
 
-      if (!this.title || !this.shortDescription || !this.description) {
+      if (!this.title || !this.description) {
         this.error = 'Tous les champs doivent être renseignés'
         return
       }
@@ -85,11 +73,6 @@ export default {
         return
       }
 
-      if (this.shortDescription.length > 60) {
-        this.error = 'La courte description ne peut exceder 60 caractères'
-        return
-      }
-
       if (this.description.length > 300) {
         this.error = 'La description ne peut exceder 300 caractères'
         return
@@ -101,7 +84,6 @@ export default {
       sendNotification(
         parseInt(this.selectedCampaignId),
         this.title,
-        this.shortDescription,
         this.description
       ).then((response) => {
         if (response.data.success) {
@@ -137,7 +119,6 @@ export default {
     clear () {
       this.loading = false
       this.title = ''
-      this.shortDescription = ''
       this.description = ''
     }
   }
@@ -145,9 +126,9 @@ export default {
 </script>
 
 <style scoped lang="sass">
-  .panel
+  .validation-error
     position: absolute
-    bottom: -100px
+    bottom: -120px
   .validation
     width: 100px
     height: 40px
@@ -168,7 +149,7 @@ export default {
   .validation:active
     background-color: #0047fa
   #campaign-selector
-    margin-top: 30px
+    margin-top: 10px
     width: 500px
   .content
     display: flex
@@ -176,36 +157,33 @@ export default {
   .subtitle
     margin: 0
 
-  .login
-    position: absolute
-    bottom: -110px
-    input:focus
-      outline: none
-    textarea:focus
-      outline: none
+  input:focus
+    outline: none
+  textarea:focus
+    outline: none
 
-    .input
+  .input
+    display: flex
+    margin-bottom: 10px
+    .input-right
+      padding: 10px
       display: flex
-      margin-bottom: 10px
-      .input-right
-        padding: 10px
-        display: flex
-        justify-content: center
-        align-items: center
-        background-color: #f8f9fb
-        border-radius: 0 10px 10px 0
-        height: 40px
-        width: 50px
+      justify-content: center
+      align-items: center
+      background-color: #f8f9fb
+      border-radius: 0 10px 10px 0
+      height: 40px
+      width: 50px
 
-      .textarea-right
-       padding: 10px
-       display: flex
-       justify-content: center
-       align-items: center
-       background-color: #f8f9fb
-       border-radius: 0 10px 10px 0
-       height: 60px
-       width: 50px
+    .textarea-right
+     padding: 10px
+     display: flex
+     justify-content: center
+     align-items: center
+     background-color: #f8f9fb
+     border-radius: 0 10px 10px 0
+     height: 60px
+     width: 50px
 
     input
       height: 40px
