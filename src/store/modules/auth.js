@@ -1,6 +1,19 @@
-import {AUTH_ERROR, AUTH_LOGOUT, AUTH_REQUEST, AUTH_SUCCESS} from '../actions/auth'
-import {login} from '../../utils/api'
-import {AUTH_STATUS_ERROR_CREDENTIALS, AUTH_STATUS_INITIAL, AUTH_STATUS_LOADING, AUTH_STATUS_SUCCESS} from '../status/auth'
+import {
+  AUTH_ERROR,
+  AUTH_LOGOUT,
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+  REGISTER_ERROR,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS
+} from '../actions/auth'
+import {addImage, addLogo, addTags, login, register} from '../../utils/api'
+import {
+  AUTH_STATUS_ERROR_CREDENTIALS,
+  AUTH_STATUS_INITIAL,
+  AUTH_STATUS_LOADING,
+  AUTH_STATUS_SUCCESS, REGISTER_STATUS_ERROR_CREDENTIALS, REGISTER_STATUS_LOADING, REGISTER_STATUS_SUCCESS
+} from '../status/auth'
 import axios from 'axios'
 
 const state = {token: localStorage.getItem('user-token') || '', status: AUTH_STATUS_INITIAL, hasLoadedOnce: false}
@@ -36,6 +49,59 @@ const actions = {
       axios.defaults.headers.common['Authorization'] = 'Basic Y29tLmNhcmwucG9zdG1hbjpiYWJ5YmVs'
       resolve()
     })
+  },
+  [REGISTER_REQUEST]: ({commit, dispatch}, registrationData) => {
+    return new Promise((resolve, reject) => {
+      commit(REGISTER_REQUEST)
+      register(
+        registrationData.email,
+        registrationData.password,
+        registrationData.name,
+        registrationData.address,
+        parseInt(registrationData.nbPoints),
+        registrationData.description)
+        .then((response) => {
+          const accessToken = response.data['authorization']['access_token']
+          localStorage.setItem('user-token', accessToken)
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+
+          addImage(registrationData.selectedImage.id)
+            .then(() => {
+              addLogo(registrationData.selectedLogo.id)
+                .then(() => {
+                  const tagsToSend = []
+                  registrationData.tags.forEach((tag) => {
+                    tagsToSend.push({
+                      'name': tag
+                    })
+                  })
+                  addTags(tagsToSend)
+                    .then(() => {
+                      commit(REGISTER_SUCCESS, accessToken)
+                      resolve()
+                    })
+                    .catch((error) => {
+                      commit(REGISTER_ERROR, error)
+                      reject(error)
+                      console.log(`Error sending tags = ${JSON.stringify(error)}`)
+                    })
+                }).catch((error) => {
+                  commit(REGISTER_ERROR, error)
+                  reject(error)
+                  console.log(`Error adding logo = ${JSON.stringify(error)}`)
+                })
+            }).catch((error) => {
+              commit(REGISTER_ERROR, error)
+              reject(error)
+              console.log(`Error adding image = ${JSON.stringify(error)}`)
+            })
+        }).catch((error) => {
+          console.log(`Error registering = ${JSON.stringify(error)}`)
+          commit(REGISTER_ERROR, error)
+          reject(error)
+          localStorage.removeItem('user-token')
+        })
+    })
   }
 }
 
@@ -43,13 +109,25 @@ const mutations = {
   [AUTH_REQUEST]: (state) => {
     state.status = AUTH_STATUS_LOADING
   },
+  [REGISTER_REQUEST]: (state) => {
+    state.status = REGISTER_STATUS_LOADING
+  },
   [AUTH_SUCCESS]: (state, accessToken) => {
     state.status = AUTH_STATUS_SUCCESS
     state.token = accessToken
     state.hasLoadedOnce = true
   },
+  [REGISTER_SUCCESS]: (state, accessToken) => {
+    state.status = REGISTER_STATUS_SUCCESS
+    state.token = accessToken
+    state.hasLoadedOnce = true
+  },
   [AUTH_ERROR]: (state) => {
     state.status = AUTH_STATUS_ERROR_CREDENTIALS
+    state.hasLoadedOnce = true
+  },
+  [REGISTER_ERROR]: (state) => {
+    state.status = REGISTER_STATUS_ERROR_CREDENTIALS
     state.hasLoadedOnce = true
   },
   [AUTH_LOGOUT]: (state) => {

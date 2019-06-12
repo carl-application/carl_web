@@ -10,7 +10,11 @@ import {
   API_CREATE_CAMPAIGN,
   API_SEND_NOTIFICATION,
   API_GET_ALL_IMAGES,
-  API_GET_ALL_LOGOS
+  API_GET_ALL_LOGOS,
+  API_REGISTER_URL,
+  API_ADD_IMAGE_URL,
+  API_ADD_TAGS_URL,
+  API_ADD_LOGO_URL
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -145,6 +149,56 @@ const getAllLogos = () => new Promise((resolve, reject) => {
     })
 })
 
+const register = (username, password, name, address, fidelityMax, description) => new Promise((resolve, reject) => {
+  const params = {
+    username: username,
+    password: password,
+    'business': {
+      name: name,
+      address: address,
+      fidelityMax: fidelityMax,
+      description: description
+    }
+  }
+  axios.post(API_REGISTER_URL, params)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const addImage = (imageId) => new Promise((resolve, reject) => {
+  axios.post(`${API_ADD_IMAGE_URL}/${imageId}`)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const addLogo = (logoId) => new Promise((resolve, reject) => {
+  axios.post(`${API_ADD_LOGO_URL}/${logoId}`)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const addTags = (tags) => new Promise((resolve, reject) => {
+  axios.post(API_ADD_TAGS_URL, tags)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -156,5 +210,9 @@ export {
   createCampaign,
   sendNotification,
   getAllImages,
-  getAllLogos
+  getAllLogos,
+  register,
+  addImage,
+  addTags,
+  addLogo
 }

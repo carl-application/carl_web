@@ -10,3 +10,7 @@ export const API_CREATE_CAMPAIGN = `${API_BASE_URL}/business/campaigns`
 export const API_SEND_NOTIFICATION = `${API_BASE_URL}/business/campaigns/notifications`
 export const API_GET_ALL_IMAGES = `${API_BASE_URL}/images`
 export const API_GET_ALL_LOGOS = `${API_BASE_URL}/logos`
+export const API_REGISTER_URL = `${API_BASE_URL}/register`
+export const API_ADD_IMAGE_URL = `${API_BASE_URL}/business/card/image`
+export const API_ADD_TAGS_URL = `${API_BASE_URL}/business/tags`
+export const API_ADD_LOGO_URL = `${API_BASE_URL}/business/logo`
