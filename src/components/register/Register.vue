@@ -17,7 +17,6 @@
         <textarea
           required v-model="description"
           placeholder="1 plat acheté pour 1 plat offert !"
-          type="text"
         ></textarea>
         <div class="label">A quelle adresse vos clients vous trouveront-ils ? :</div>
         <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete>
@@ -191,7 +190,7 @@
 import {getAllImages, getAllLogos} from './../../utils/api'
 import VueScroll from 'vuescroll/dist/vuescroll-slide'
 import {REGISTER_REQUEST} from '../../store/actions/auth'
-import {REGISTER_STATUS_ERROR_CREDENTIALS, REGISTER_STATUS_LOADING} from '../../store/status/auth'
+import {REGISTER_STATUS_LOADING} from '../../store/status/auth'
 
 export default {
   components: {VueScroll},

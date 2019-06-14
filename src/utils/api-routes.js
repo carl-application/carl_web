@@ -14,3 +14,5 @@ export const API_REGISTER_URL = `${API_BASE_URL}/register`
 export const API_ADD_IMAGE_URL = `${API_BASE_URL}/business/card/image`
 export const API_ADD_TAGS_URL = `${API_BASE_URL}/business/tags`
 export const API_ADD_LOGO_URL = `${API_BASE_URL}/business/logo`
+export const API_GET_CURRENT_BUSINESS_INFOS = `${API_BASE_URL}/business/current`
+export const API_PUT_CURRENT_BUSINESS_DATA = `${API_BASE_URL}/business/infos`

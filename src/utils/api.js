@@ -14,7 +14,9 @@ import {
   API_REGISTER_URL,
   API_ADD_IMAGE_URL,
   API_ADD_TAGS_URL,
-  API_ADD_LOGO_URL
+  API_ADD_LOGO_URL,
+  API_GET_CURRENT_BUSINESS_INFOS,
+  API_PUT_CURRENT_BUSINESS_DATA
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -199,6 +201,26 @@ const addTags = (tags) => new Promise((resolve, reject) => {
     })
 })
 
+const getCurrentBusinessInfos = () => new Promise((resolve, reject) => {
+  axios.get(API_GET_CURRENT_BUSINESS_INFOS)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const updateBusiness = (params) => new Promise((resolve, reject) => {
+  axios.put(API_PUT_CURRENT_BUSINESS_DATA, params)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -214,5 +236,7 @@ export {
   register,
   addImage,
   addTags,
-  addLogo
+  addLogo,
+  getCurrentBusinessInfos,
+  updateBusiness
 }

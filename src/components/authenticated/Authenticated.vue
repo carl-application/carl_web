@@ -18,6 +18,12 @@
         <div class="nav-item-left"></div>
         <div class="nav-item-right">Déconnexion</div>
       </div>
+      <router-link to="Profile">
+        <div class="profile" v-if="hasLoadedBusiness">
+          <img :src="business.logo.url"/>
+          <div class="name">{{business.name}}</div>
+        </div>
+      </router-link>
     </div>
     <div class="content">
       <router-view/>
@@ -27,14 +33,33 @@
 
 <script>
 import {AUTH_LOGOUT} from '../../store/actions/auth'
+import {getCurrentBusinessInfos} from './../../utils/api'
 
 export default {
+  data () {
+    return {
+      business: null
+    }
+  },
   methods: {
     logout: function () {
       this.$store.dispatch(AUTH_LOGOUT, {}).then(() => {
         this.$router.push('Login')
       })
     }
+  },
+  computed: {
+    hasLoadedBusiness () {
+      return this.business
+    }
+  },
+  mounted () {
+    getCurrentBusinessInfos()
+      .then((response) => {
+        this.business = response.data
+      }).catch((error) => {
+        console.error(`Error retriving current business informations : ${error}`)
+      })
   }
 }
 </script>

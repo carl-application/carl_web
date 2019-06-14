@@ -89,7 +89,11 @@ export default {
         if (response.data.success) {
           this.notifySuccess(response.data.nbMatchedUsers)
         } else {
-          this.notifyError()
+          if (response.data.error === 2) {
+            this.notifyError('Vous avez dépassé la limite autorisée de notifications en version gratuite (500 par mois) !')
+          } else {
+            this.notifyError('La notification n\'a pas correctement été envoyée')
+          }
         }
         this.clear()
       }).catch((error) => {
@@ -107,13 +111,13 @@ export default {
         text: `La notification a correctement été envoyée aux ${nbMatchedUsers} utilisateurs ciblés !`
       })
     },
-    notifyError () {
+    notifyError (text) {
       this.$notify({
         group: 'notifications',
         type: 'error',
         duration: '5000',
         title: 'Echec de l\'envoi',
-        text: 'La notification n\'a pas correctement été envoyée'
+        text: text
       })
     },
     clear () {

@@ -110,7 +110,7 @@ export default {
       overflow: hidden
       padding: 20px
       position: absolute
-      bottom: -100px
+      bottom: -130px
       right: 0
       width: 85%
 

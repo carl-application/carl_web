@@ -7,7 +7,7 @@
         <input
           required v-model="username"
           type="text"
-          placeholder="Nom utilisateur ..."
+          placeholder="Nom utilisateur..."
           :class="{disabled: isLoading}"
           :disabled="isLoading"
         />

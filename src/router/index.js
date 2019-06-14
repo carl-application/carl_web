@@ -7,6 +7,7 @@ import Login from '../components/login/Login'
 import Dashboard from '../components/authenticated/dashboard/Dashboard'
 import Notifications from '../components/authenticated/notifications/Notifications'
 import Register from '../components/register/Register'
+import Profile from '../components/authenticated/profile/Profile'
 
 Vue.use(Router)
 
@@ -48,6 +49,12 @@ export default new Router({
           path: '/notifications',
           name: 'Notifications',
           component: Notifications,
+          beforeEnter: ifAuthenticated
+        },
+        {
+          path: '/profile',
+          name: 'Profile',
+          component: Profile,
           beforeEnter: ifAuthenticated
         }]
     },
