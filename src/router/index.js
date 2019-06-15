@@ -8,6 +8,7 @@ import Dashboard from '../components/authenticated/dashboard/Dashboard'
 import Notifications from '../components/authenticated/notifications/Notifications'
 import Register from '../components/register/Register'
 import Profile from '../components/authenticated/profile/Profile'
+import Admin from '../components/authenticated/admin/Admin'
 
 Vue.use(Router)
 
@@ -25,6 +26,14 @@ const ifAuthenticated = (to, from, next) => {
     return
   }
   next('/login')
+}
+
+const ifAdmin = (to, from, next) => {
+  if (store.getters.isAdmin) {
+    next()
+    return
+  }
+  next('/Dashboard')
 }
 
 export default new Router({
@@ -56,6 +65,12 @@ export default new Router({
           name: 'Profile',
           component: Profile,
           beforeEnter: ifAuthenticated
+        },
+        {
+          path: '/admin',
+          name: 'Admin',
+          component: Admin,
+          beforeEnter: ifAdmin
         }]
     },
     {

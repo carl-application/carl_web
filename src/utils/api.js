@@ -1,22 +1,23 @@
 import axios from 'axios'
 import {
+  API_ADD_IMAGE_URL,
+  API_ADD_LOGO_URL,
+  API_ADD_TAGS_URL,
+  API_ADMIN_CREATE_IMAGE, API_ADMIN_DELETE_IMAGE,
+  API_CREATE_CAMPAIGN,
   API_GET_AGES_REPARTITION,
+  API_GET_ALL_IMAGES,
+  API_GET_ALL_LOGOS,
   API_GET_CAMPAIGNS,
+  API_GET_CURRENT_BUSINESS_INFOS,
   API_GET_TOTAL_CUSTOMERS_COUNT_URL,
   API_GET_VISITS_COUNT_ON_LAST_MONTHS,
   API_GET_VISITS_COUNT_URL,
   API_LOGIN_URL,
-  API_SEX_PARITY_COUNT_URL,
-  API_CREATE_CAMPAIGN,
-  API_SEND_NOTIFICATION,
-  API_GET_ALL_IMAGES,
-  API_GET_ALL_LOGOS,
+  API_PUT_CURRENT_BUSINESS_DATA,
   API_REGISTER_URL,
-  API_ADD_IMAGE_URL,
-  API_ADD_TAGS_URL,
-  API_ADD_LOGO_URL,
-  API_GET_CURRENT_BUSINESS_INFOS,
-  API_PUT_CURRENT_BUSINESS_DATA
+  API_SEND_NOTIFICATION,
+  API_SEX_PARITY_COUNT_URL
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -221,6 +222,30 @@ const updateBusiness = (params) => new Promise((resolve, reject) => {
     })
 })
 
+const adminCreateImage = (url, type = 'image') => new Promise((resolve, reject) => {
+  const image = {
+    url: url,
+    type: type
+  }
+  axios.post(API_ADMIN_CREATE_IMAGE, image)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const adminDeleteImage = (id) => new Promise((resolve, reject) => {
+  axios.delete(`${API_ADMIN_DELETE_IMAGE}/${id}`)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -238,5 +263,7 @@ export {
   addTags,
   addLogo,
   getCurrentBusinessInfos,
-  updateBusiness
+  updateBusiness,
+  adminCreateImage,
+  adminDeleteImage
 }

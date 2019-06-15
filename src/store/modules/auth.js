@@ -12,11 +12,18 @@ import {
   AUTH_STATUS_ERROR_CREDENTIALS,
   AUTH_STATUS_INITIAL,
   AUTH_STATUS_LOADING,
-  AUTH_STATUS_SUCCESS, REGISTER_STATUS_ERROR_CREDENTIALS, REGISTER_STATUS_LOADING, REGISTER_STATUS_SUCCESS
+  AUTH_STATUS_SUCCESS,
+  REGISTER_STATUS_ERROR_CREDENTIALS,
+  REGISTER_STATUS_LOADING,
+  REGISTER_STATUS_SUCCESS
 } from '../status/auth'
 import axios from 'axios'
 
-const state = {token: localStorage.getItem('user-token') || '', status: AUTH_STATUS_INITIAL, hasLoadedOnce: false}
+const state = {
+  token: localStorage.getItem('user-token') || '',
+  status: AUTH_STATUS_INITIAL,
+  hasLoadedOnce: false
+}
 
 const getters = {
   isAuthenticated: state => !!state.token,
@@ -25,21 +32,20 @@ const getters = {
 
 const actions = {
   [AUTH_REQUEST]: ({commit, dispatch}, user) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       commit(AUTH_REQUEST)
-      login(user.username, user.password)
-        .then(resp => {
-          const accessToken = resp['access_token']
-          localStorage.setItem('user-token', accessToken)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-          commit(AUTH_SUCCESS, accessToken)
-          resolve(resp)
-        })
-        .catch(err => {
-          commit(AUTH_ERROR, err)
-          localStorage.removeItem('user-token')
-          reject(err)
-        })
+      try {
+        const responseData = await login(user.username, user.password)
+        const accessToken = responseData['access_token']
+        localStorage.setItem('user-token', accessToken)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+        commit(AUTH_SUCCESS, accessToken)
+        resolve(responseData)
+      } catch (error) {
+        commit(AUTH_ERROR, error)
+        localStorage.removeItem('user-token')
+        reject(error)
+      }
     })
   },
   [AUTH_LOGOUT]: ({commit, dispatch}) => {
@@ -51,56 +57,36 @@ const actions = {
     })
   },
   [REGISTER_REQUEST]: ({commit, dispatch}, registrationData) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       commit(REGISTER_REQUEST)
-      register(
-        registrationData.email,
-        registrationData.password,
-        registrationData.name,
-        registrationData.address,
-        parseInt(registrationData.nbPoints),
-        registrationData.description)
-        .then((response) => {
-          const accessToken = response.data['authorization']['access_token']
-          localStorage.setItem('user-token', accessToken)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+      try {
+        const registerResponse = await register(
+          registrationData.email,
+          registrationData.password,
+          registrationData.name,
+          registrationData.address,
+          parseInt(registrationData.nbPoints),
+          registrationData.description)
 
-          addImage(registrationData.selectedImage.id)
-            .then(() => {
-              addLogo(registrationData.selectedLogo.id)
-                .then(() => {
-                  const tagsToSend = []
-                  registrationData.tags.forEach((tag) => {
-                    tagsToSend.push({
-                      'name': tag
-                    })
-                  })
-                  addTags(tagsToSend)
-                    .then(() => {
-                      commit(REGISTER_SUCCESS, accessToken)
-                      resolve()
-                    })
-                    .catch((error) => {
-                      commit(REGISTER_ERROR, error)
-                      reject(error)
-                      console.log(`Error sending tags = ${JSON.stringify(error)}`)
-                    })
-                }).catch((error) => {
-                  commit(REGISTER_ERROR, error)
-                  reject(error)
-                  console.log(`Error adding logo = ${JSON.stringify(error)}`)
-                })
-            }).catch((error) => {
-              commit(REGISTER_ERROR, error)
-              reject(error)
-              console.log(`Error adding image = ${JSON.stringify(error)}`)
-            })
-        }).catch((error) => {
-          console.log(`Error registering = ${JSON.stringify(error)}`)
-          commit(REGISTER_ERROR, error)
-          reject(error)
-          localStorage.removeItem('user-token')
+        const accessToken = registerResponse.data['authorization']['access_token']
+        localStorage.setItem('user-token', accessToken)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+
+        await addImage(registrationData.selectedImage.id)
+        await addLogo(registrationData.selectedLogo.id)
+        const tagsToSend = []
+        registrationData.tags.forEach((tag) => {
+          tagsToSend.push({
+            'name': tag
+          })
         })
+        await addTags(tagsToSend)
+        commit(REGISTER_SUCCESS, accessToken)
+        resolve()
+      } catch (error) {
+        commit(REGISTER_ERROR, error)
+        reject(error)
+      }
     })
   }
 }

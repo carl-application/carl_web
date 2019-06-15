@@ -4,14 +4,35 @@
       <!--<img src="./../../assets/logo.png" id="logo">-->
       <router-link to="Dashboard">
         <div class="nav-item">
-          <div class="nav-item-left"><img src="../../assets/ic_small_chart.png"/></div>
+          <div class="nav-item-left">
+            <font-awesome-icon
+              icon="chart-bar"
+              :class="{selected: isAdminSelected, normal: !isAdminSelected}"
+            />
+          </div>
           <div class="nav-item-right">Dashboard</div>
         </div>
       </router-link>
       <router-link to="Notifications">
         <div class="nav-item">
-          <div class="nav-item-left"><img src="../../assets/ic_small_notification.png"/></div>
+          <div class="nav-item-left">
+            <font-awesome-icon
+              icon="bell"
+              :class="{selected: isAdminSelected, normal: !isAdminSelected}"
+            />
+          </div>
           <div class="nav-item-right">Notifications</div>
+        </div>
+      </router-link>
+      <router-link to="Admin" v-if="isAdmin">
+        <div class="nav-item">
+          <div class="nav-item-left">
+            <font-awesome-icon
+              icon="user-shield"
+              :class="{selected: isAdminSelected, normal: !isAdminSelected}"
+            />
+          </div>
+          <div class="nav-item-right">Admin</div>
         </div>
       </router-link>
       <div class="nav-item" @click.prevent="logout">
@@ -20,8 +41,12 @@
       </div>
       <router-link to="Profile">
         <div class="profile" v-if="hasLoadedBusiness">
-          <img :src="business.logo.url"/>
-          <div class="name">{{business.name}}</div>
+          <img :src="getAdminLogo"/>
+          <div class="name">{{this.$store.getters.business.name}}</div>
+          <font-awesome-icon
+            icon="pen"
+            :style="{ color: 'black', fontSize: '12px'}"
+          />
         </div>
       </router-link>
     </div>
@@ -33,12 +58,12 @@
 
 <script>
 import {AUTH_LOGOUT} from '../../store/actions/auth'
-import {getCurrentBusinessInfos} from './../../utils/api'
-
+import {REQUEST_CURRENT_BUSINESS} from '../../store/actions/business'
+import {REQUEST_STATUS_CURRENT_BUSINESS_SUCCESS} from '../../store/status/business'
 export default {
   data () {
     return {
-      business: null
+      adminSelected: false
     }
   },
   methods: {
@@ -49,17 +74,22 @@ export default {
     }
   },
   computed: {
+    isAdminSelected () {
+      return this.adminSelected
+    },
     hasLoadedBusiness () {
-      return this.business
+      return this.$store.getters.businessStatus === REQUEST_STATUS_CURRENT_BUSINESS_SUCCESS
+    },
+    isAdmin () {
+      return this.$store.getters.business && this.$store.getters.business.account.isAdmin
+    },
+    getAdminLogo () {
+      if (!this.$store.getters.business.logo) return ''
+      return this.$store.getters.business.logo.url
     }
   },
   mounted () {
-    getCurrentBusinessInfos()
-      .then((response) => {
-        this.business = response.data
-      }).catch((error) => {
-        console.error(`Error retriving current business informations : ${error}`)
-      })
+    this.$store.dispatch(REQUEST_CURRENT_BUSINESS)
   }
 }
 </script>

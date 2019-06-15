@@ -216,6 +216,7 @@ export default {
       this.selectedLogo = value
     },
     getUrl (image) {
+      if (!image) return ''
       return image.url
     },
     save () {
@@ -444,7 +445,6 @@ export default {
             .logos-wrapper
               width: 100%
               display: flex
-              justify-content: start
               overflow: scroll
               .image
                 margin-right: 10px
@@ -458,8 +458,8 @@ export default {
                 img
                   height: 40px
                   width: 40px
-                  border-radius: 20px
-                  object-fit: cover
+                  object-fit: contain
+                  box-sizing: border-box
               .image:hover
                 cursor: pointer
             .tags-container

@@ -44,7 +44,6 @@
         <div class="label">Choisissez l'image de fond de votre carte :</div>
         <div class="images-container">
           <div class="loader-container" v-show="imagesLoading"><div class="loader"></div></div>
-          <vue-scroll :ops="ops">
             <div class="images-wrapper">
               <div
                 class="image"
@@ -56,7 +55,6 @@
                 <img :src="getUrl(value)">
               </div>
             </div>
-          </vue-scroll>
         </div>
         <div class="label">Image choisie :</div>
         <div class="selected-image" v-show="!imagesLoading">
@@ -80,7 +78,6 @@
         <div class="label">Choisissez le logo qui se posera sur votre image :</div>
         <div class="images-container">
           <div class="loader-container" v-show="logosLoading"><div class="loader"></div></div>
-          <vue-scroll :ops="ops">
             <div class="images-wrapper">
               <div
                 class="image"
@@ -96,7 +93,6 @@
                 </div>
               </div>
             </div>
-          </vue-scroll>
         </div>
         <div class="label">Logo choisi :</div>
         <div class="selected-logo-container"  v-show="!logosLoading">
@@ -212,24 +208,7 @@ export default {
       password: '',
       passwordConfirmation: '',
       email: '',
-      error: null,
-      ops: {
-        vuescroll: {
-          sizeStrategy: 'number',
-          zooming: false,
-          scroller: {
-            boucing: false
-          }
-        },
-        scrollPanel: {
-          scrollingX: true,
-          scrollingY: false
-        },
-        bar: {
-          background: '#FFFFFF',
-          keepShow: true
-        }
-      }
+      error: null
     }
   },
   methods: {
@@ -532,6 +511,7 @@ export default {
       .images-wrapper
         display: flex
         width: 70%
+        overflow: scroll
         .logo-container
           width: 100px
           height: 140px
