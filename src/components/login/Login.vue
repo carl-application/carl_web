@@ -53,7 +53,7 @@ export default {
     login: function () {
       const {username, password} = this
       this.$store.dispatch(AUTH_REQUEST, {username, password}).then(() => {
-        this.$router.push('Dashboard')
+        this.$router.push('/Dashboard')
       }).catch(_ => {
       })
     }

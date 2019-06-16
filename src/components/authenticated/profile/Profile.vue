@@ -408,9 +408,8 @@ export default {
                 justify-content: center
                 align-items: center
                 img
-                  height: 40px
-                  width: 40px
-                  border-radius: 20px
+                  height: 30px
+                  width: 30px
                   object-fit: contain
             .selected-image
               height: 100px
@@ -451,7 +450,6 @@ export default {
                 height: 100px
                 border-radius: 15px
                 width: 70px
-                background-color: #eeeeee
                 display: flex
                 justify-content: center
                 align-items: center

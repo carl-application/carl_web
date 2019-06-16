@@ -71,7 +71,13 @@ export default new Router({
           name: 'Admin',
           component: Admin,
           beforeEnter: ifAdmin
-        }]
+        },
+        {
+          path: '/',
+          component: Dashboard,
+          beforeEnter: ifAuthenticated
+        }
+      ]
     },
     {
       path: '/login',

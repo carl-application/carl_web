@@ -352,6 +352,7 @@ export default {
     width: 90%
     .left
       flex: 1
+      overflow: hidden
     .right
       flex: 1
       display: flex

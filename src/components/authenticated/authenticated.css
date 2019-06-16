@@ -23,15 +23,17 @@ h1 {
 }
 
 .content {
-  width: 100%;
+  width: 70%;
 }
 
 .nav-bar {
-  width: 30%;
   height: 100vh;
   background-color: white;
   margin-top: 0;
   display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
   flex-direction: column;
   justify-content: center;
 }

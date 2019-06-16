@@ -7,7 +7,6 @@
           <div class="nav-item-left">
             <font-awesome-icon
               icon="chart-bar"
-              :class="{selected: isAdminSelected, normal: !isAdminSelected}"
             />
           </div>
           <div class="nav-item-right">Dashboard</div>
@@ -18,7 +17,6 @@
           <div class="nav-item-left">
             <font-awesome-icon
               icon="bell"
-              :class="{selected: isAdminSelected, normal: !isAdminSelected}"
             />
           </div>
           <div class="nav-item-right">Notifications</div>
@@ -29,7 +27,6 @@
           <div class="nav-item-left">
             <font-awesome-icon
               icon="user-shield"
-              :class="{selected: isAdminSelected, normal: !isAdminSelected}"
             />
           </div>
           <div class="nav-item-right">Admin</div>
@@ -60,6 +57,7 @@
 import {AUTH_LOGOUT} from '../../store/actions/auth'
 import {REQUEST_CURRENT_BUSINESS} from '../../store/actions/business'
 import {REQUEST_STATUS_CURRENT_BUSINESS_SUCCESS} from '../../store/status/business'
+
 export default {
   data () {
     return {
@@ -89,6 +87,7 @@ export default {
     }
   },
   mounted () {
+    // this.$router.push('Dashboard')
     this.$store.dispatch(REQUEST_CURRENT_BUSINESS)
   }
 }
