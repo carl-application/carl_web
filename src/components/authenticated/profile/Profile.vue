@@ -411,7 +411,7 @@ export default {
                   height: 40px
                   width: 40px
                   border-radius: 20px
-                  object-fit: cover
+                  object-fit: contain
             .selected-image
               height: 100px
               display: flex
