@@ -12,8 +12,6 @@ import VModal from 'vue-js-modal'
 import Notifications from 'vue-notification'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
-console.log(`NODE_ENV ${JSON.stringify(process.env.NODE_ENV)}`)
-console.log(`SLEEPY ${JSON.stringify(process.env.PLACES_API_KEY)}`)
 Vue.use(VueGoogleMaps, {
   load: {
     key: process.env.PLACES_API_KEY,
