@@ -9,6 +9,7 @@ import Notifications from '../components/authenticated/notifications/Notificatio
 import Register from '../components/register/Register'
 import Profile from '../components/authenticated/profile/Profile'
 import Admin from '../components/authenticated/admin/Admin'
+import ConfidentialityRules from '../components/confidentiality_rules/ConfidentialityRules'
 
 Vue.use(Router)
 
@@ -90,6 +91,11 @@ export default new Router({
       name: 'Register',
       component: Register,
       beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: '/confidentiality',
+      name: 'Confidentiality',
+      component: ConfidentialityRules
     },
     {
       path: '*',
