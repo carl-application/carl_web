@@ -289,6 +289,7 @@ export default {
 
 <style scoped lang="sass">
   .container
+    width: 100%
     display: flex
     flex-direction: column
     padding: 30px
@@ -301,6 +302,8 @@ export default {
       height: 10px
     .images
       display: flex
+      width: 80%
+      overflow: hidden
       flex-direction: column
       .selector
         display: flex
