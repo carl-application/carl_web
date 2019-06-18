@@ -289,6 +289,7 @@ export default {
     align-items: center
   .container
     display: flex
+    flex-direction: row
     justify-content: space-between
     align-items: center
     padding: 10px

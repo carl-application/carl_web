@@ -18,3 +18,4 @@ export const API_GET_CURRENT_BUSINESS_INFOS = `${API_BASE_URL}/business/current`
 export const API_PUT_CURRENT_BUSINESS_DATA = `${API_BASE_URL}/business/infos`
 export const API_ADMIN_CREATE_IMAGE = `${API_BASE_URL}/admin/images`
 export const API_ADMIN_DELETE_IMAGE = `${API_BASE_URL}/admin/images`
+export const API_ADMIN_GET_SETTINGS = `${API_BASE_URL}/admin/settings`

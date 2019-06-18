@@ -18,7 +18,8 @@ const state = {
 const getters = {
   business: state => state.business,
   businessStatus: state => state.status,
-  isAdmin: state => state.business.account.isAdmin
+  isAdmin: state => state.business.account.isAdmin,
+  isPremium: state => state.business.planType === 'premium'
 }
 
 const actions = {

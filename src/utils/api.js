@@ -3,7 +3,9 @@ import {
   API_ADD_IMAGE_URL,
   API_ADD_LOGO_URL,
   API_ADD_TAGS_URL,
-  API_ADMIN_CREATE_IMAGE, API_ADMIN_DELETE_IMAGE,
+  API_ADMIN_CREATE_IMAGE,
+  API_ADMIN_DELETE_IMAGE,
+  API_ADMIN_GET_SETTINGS,
   API_CREATE_CAMPAIGN,
   API_GET_AGES_REPARTITION,
   API_GET_ALL_IMAGES,
@@ -246,6 +248,16 @@ const adminDeleteImage = (id) => new Promise((resolve, reject) => {
     })
 })
 
+const adminGetSettings = () => new Promise((resolve, reject) => {
+  axios.get(API_ADMIN_GET_SETTINGS)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -265,5 +277,6 @@ export {
   getCurrentBusinessInfos,
   updateBusiness,
   adminCreateImage,
-  adminDeleteImage
+  adminDeleteImage,
+  adminGetSettings
 }

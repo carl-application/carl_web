@@ -57,6 +57,7 @@
 import {AUTH_LOGOUT} from '../../store/actions/auth'
 import {REQUEST_CURRENT_BUSINESS} from '../../store/actions/business'
 import {REQUEST_STATUS_CURRENT_BUSINESS_SUCCESS} from '../../store/status/business'
+import {REQUEST_SETTINGS} from '../../store/actions/settings'
 
 export default {
   data () {
@@ -84,11 +85,19 @@ export default {
     getAdminLogo () {
       if (!this.$store.getters.business.logo) return ''
       return this.$store.getters.business.logo.url
+    },
+    getPremiumCost () {
+      if (!this.$store.getters.premiumCost) return null
+      return this.$store.getters.premiumCost
+    },
+    isPremium () {
+      return this.$store.getters.isAdmin || this.$store.isPremium
     }
   },
   mounted () {
     // this.$router.push('Dashboard')
     this.$store.dispatch(REQUEST_CURRENT_BUSINESS)
+    this.$store.dispatch(REQUEST_SETTINGS)
   }
 }
 </script>
