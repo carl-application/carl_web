@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="nav-bar">
-      <!--<img src="./../../assets/logo.png" id="logo">-->
+      <div class="premium-container">
+        <div class="premium" v-if="isPremium">You are premium !</div>
+        <div class="become-premium" v-if="!isPremium">Become premium</div>
+      </div>
       <router-link to="Dashboard">
         <div class="nav-item">
           <div class="nav-item-left">
