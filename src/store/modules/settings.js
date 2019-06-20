@@ -8,8 +8,8 @@ const state = {
 }
 
 const getters = {
-  premiumCost: state => state.settings.premiumCost,
-  nbFreeNotificationsPerMonth: state => state.settings.nbFreeNotificationsPerMonth
+  premiumCost: state => state.settings ? state.settings.premiumCost : 0,
+  nbFreeNotificationsPerMonth: state => state.settings ? state.settings.nbFreeNotificationsPerMonth : 0
 }
 
 const actions = {
