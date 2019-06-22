@@ -10,4 +10,5 @@ module.exports = {
   FIREBASE_STORAGE_BUCKET: '"carl-application.appspot.com"',
   FIREBASE_MESSENGING_SENDER_ID: '"791112122663"',
   FIREBASE_APP_ID: '"1:791112122663:web:0b5273aefac86a49"',
+  STRIPE_PUBLIC_KEY: '"pk_live_DFWSqdAXZfOGZwaBK6sT2fNM00LZlSUJHp"'
 }
