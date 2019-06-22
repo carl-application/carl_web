@@ -5,7 +5,7 @@ import {
   API_ADD_TAGS_URL,
   API_ADMIN_CREATE_IMAGE,
   API_ADMIN_DELETE_IMAGE,
-  API_ADMIN_GET_SETTINGS,
+  API_ADMIN_GET_SETTINGS, API_CHANGE_PASSSWORD,
   API_CREATE_CAMPAIGN,
   API_GET_AGES_REPARTITION,
   API_GET_ALL_IMAGES,
@@ -19,7 +19,7 @@ import {
   API_PUT_CURRENT_BUSINESS_DATA,
   API_REGISTER_URL,
   API_SEND_NOTIFICATION,
-  API_SEX_PARITY_COUNT_URL
+  API_SEX_PARITY_COUNT_URL, API_SUSCRIBE_TO_PREMIUM
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -258,6 +258,32 @@ const adminGetSettings = () => new Promise((resolve, reject) => {
     })
 })
 
+const changePassword = (newPassword) => new Promise((resolve, reject) => {
+  const params = {
+    'newPassword': newPassword
+  }
+  axios.put(API_CHANGE_PASSSWORD, {params})
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const subscribeToPremium = (token) => new Promise((resolve, reject) => {
+  const params = {
+    cardToken: token
+  }
+  axios.post(API_SUSCRIBE_TO_PREMIUM, null, {params})
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -278,5 +304,7 @@ export {
   updateBusiness,
   adminCreateImage,
   adminDeleteImage,
-  adminGetSettings
+  adminGetSettings,
+  subscribeToPremium,
+  changePassword
 }

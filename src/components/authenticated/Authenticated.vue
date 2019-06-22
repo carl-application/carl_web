@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <modal
+    <!--<modal
       name="premium-modal"
       :width="'50%'"
       :height="'50%'"
@@ -43,11 +43,11 @@
         </div>
       </div>
 
-    </modal>
+    </modal>-->
     <div class="nav-bar">
       <div class="premium-container">
         <div class="premium" v-if="isPremium">Vous êtes premium !</div>
-        <div class="become-premium" @click="showPremiumModal" v-if="!isPremium">Devenez premium</div>
+        <!--<div class="become-premium"  v-if="!isPremium">Devenez premium</div>-->
       </div>
       <router-link to="Dashboard">
         <div class="nav-item">
@@ -105,59 +105,22 @@ import {AUTH_LOGOUT} from '../../store/actions/auth'
 import {REQUEST_CURRENT_BUSINESS} from '../../store/actions/business'
 import {REQUEST_STATUS_CURRENT_BUSINESS_SUCCESS} from '../../store/status/business'
 import {REQUEST_SETTINGS} from '../../store/actions/settings'
-import { CardNumber, CardExpiry, CardCvc, createToken } from 'vue-stripe-elements-plus'
+// import {subscribeToPremium} from '../../utils/api'
 
 export default {
-  components: { CardNumber, CardExpiry, CardCvc },
   data () {
     return {
-      adminSelected: false,
-      stripeKey: process.env.STRIPE_PUBLIC_KEY,
-      options: {
-      },
-      complete: false,
-      number: false,
-      expiry: false,
-      cvc: false,
-      paying: false
+      adminSelected: false
     }
   },
   methods: {
-    update () {
-      this.complete = this.number && this.expiry && this.cvc
-
-      // field completed, find field to focus next
-      if (this.number) {
-        if (!this.expiry) {
-          this.$refs.cardExpiry.focus()
-        } else if (!this.cvc) {
-          this.$refs.cardCvc.focus()
-        }
-      } else if (this.expiry) {
-        if (!this.cvc) {
-          this.$refs.cardCvc.focus()
-        } else if (!this.number) {
-          this.$refs.cardNumber.focus()
-        }
-      }
-    },
-    pay () {
-      this.paying = !this.paying
-      createToken().then(data => console.log(JSON.stringify(data)))
-    },
     logout: function () {
       this.$store.dispatch(AUTH_LOGOUT, {}).then(() => {
         this.$router.push('Login')
       })
-    },
-    showPremiumModal () {
-      this.$modal.show('premium-modal')
     }
   },
   computed: {
-    isPaying () {
-      return this.paying
-    },
     isAdminSelected () {
       return this.adminSelected
     },
@@ -183,11 +146,6 @@ export default {
     // this.$router.push('Dashboard')
     this.$store.dispatch(REQUEST_CURRENT_BUSINESS)
     this.$store.dispatch(REQUEST_SETTINGS)
-  },
-  watch: {
-    number () { this.update() },
-    expiry () { this.update() },
-    cvc () { this.update() }
   }
 }
 </script>

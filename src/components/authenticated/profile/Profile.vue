@@ -48,6 +48,43 @@
               <div class="loader"></div>
             </div>
             <div class="card-loaded" v-if="mayShowCards">
+              <div class="title">Modifiez votre mot de passe</div>
+              <div class="card-content">
+                <div class="labelized-input">
+                  <p class="label">Ancien mot de passe :</p>
+                  <input
+                    required v-model="oldPassword"
+                    placeholder="Votre ancien mot de passe ..."
+                    type="password"
+                  />
+                </div>
+                <div class="labelized-input">
+                  <p class="label">Nouveau mot de passe :</p>
+                  <input
+                    required v-model="newPassword"
+                    placeholder="Votre nouveau mot de passe"
+                    type="password"
+                  />
+                </div>
+                <div class="labelized-input">
+                  <p class="label">Répetez le mot de passe :</p>
+                  <input
+                    required v-model="newPasswordRepeat"
+                    placeholder="Votre nouveau mot de passe"
+                    type="password"
+                  />
+                </div>
+                <div v-if="hasPasswordError" class="password-error">
+                  {{passwordError}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div v-if="!mayShowCards" class="loader-container">
+              <div class="loader"></div>
+            </div>
+            <div class="card-loaded" v-if="mayShowCards">
               <div class="title">Modifiez les caractéristiques de votre carte</div>
               <div class="card-content">
                 <div class="labelized-input">
@@ -154,7 +191,7 @@
 
 <script>
 import VueScroll from 'vuescroll/dist/vuescroll-slide'
-import {getCurrentBusinessInfos, getAllImages, getAllLogos, updateBusiness} from './../../../utils/api'
+import {getCurrentBusinessInfos, getAllImages, getAllLogos, updateBusiness, login} from './../../../utils/api'
 
 export default {
   components: {VueScroll},
@@ -169,6 +206,10 @@ export default {
       selectedLogo: null,
       selectedAddress: null,
       loading: false,
+      oldPassword: null,
+      newPassword: null,
+      newPasswordRepeat: null,
+      passwordError: null,
       ops: {
         vuescroll: {
           sizeStrategy: 'number',
@@ -219,9 +260,8 @@ export default {
       if (!image) return ''
       return image.url
     },
-    save () {
+    async save () {
       this.loading = !this.loading
-      console.log(`tags = ${JSON.stringify(this.tags)}`)
 
       let params = {
         name: this.business.name,
@@ -234,25 +274,20 @@ export default {
         stringTags: this.tags
       }
 
-      console.log(`Sending : ${JSON.stringify(params)}`)
-
-      updateBusiness(params)
-        .then((response) => {
-          console.log(`update business response = ${JSON.stringify(response)}`)
-          if (response.status !== 200) {
-            console.log(`Error update business`)
-          } else {
-            this.business = response.data
-            this.selectedImage = this.business.image
-            this.selectedLogo = this.business.logo
-          }
-
-          this.loading = false
-        })
-        .catch((error) => {
-          console.log(`Error updating business : ${error}`)
-          this.loading = false
-        })
+      try {
+        const response = await updateBusiness(params)
+        if (response.status !== 200) {
+          console.log(`Error update business`)
+        } else {
+          this.business = response.data
+          this.selectedImage = this.business.image
+          this.selectedLogo = this.business.logo
+        }
+        this.loading = false
+      } catch (error) {
+        console.log(`Error updating business : ${error}`)
+        this.loading = false
+      }
     }
   },
   mounted () {
@@ -284,6 +319,9 @@ export default {
       })
   },
   computed: {
+    hasPasswordError () {
+      return this.passwordError
+    },
     hasLoaded () {
       return this.business
     },
@@ -389,6 +427,10 @@ export default {
             flex-direction: column
             justify-content: start
             align-items: center
+            .password-error
+              color: red
+              font-size: 14px
+              margin-top: 10px
             .selected-logo
               display: flex
               flex-direction: column

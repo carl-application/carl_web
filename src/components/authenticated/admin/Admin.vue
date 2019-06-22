@@ -289,7 +289,10 @@ export default {
 
 <style scoped lang="sass">
   .container
-    width: 100%
+    position: absolute
+    top: 0
+    left: 25%
+    right: 0
     display: flex
     flex-direction: column
     padding: 30px
@@ -372,8 +375,8 @@ export default {
         justify-content: center
         align-items: center
         img
-          width: 40px
-          height: 40px
+          width: 50px
+          height: 50px
           object-fit: contain
           border-radius: 20px
 
