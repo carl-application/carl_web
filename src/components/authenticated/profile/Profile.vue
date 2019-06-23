@@ -1,10 +1,75 @@
 <template>
   <div class="panel-blue">
+    <modal
+      name="sendMail"
+      width="400px"
+      height="400px"
+    >
+      <div class="send-mail">
+        <img src="./../../../assets/ic_carl.png" id="send-mail-logo">
+        <div class="text">
+          <p>Nous enverrons pour vous un email à votre collaborateur pour lui partager votre clé d'affiliation</p>
+          <p>Son adresse mail ne sera en aucun cas sauvegardée</p>
+        </div>
+        <input
+          required v-model="affiliationRecipientEmail"
+          placeholder="Adresse email"
+          type="email"
+        />
+        <div class="send" @click="send">
+          <div v-if="!sendingMail">Envoyer</div>
+          <div class="loader" v-if="sendingMail"></div>
+        </div>
+        <div class="error" v-if="errorSendingEmail">{{emailSentError}}</div>
+        <div class="success" v-if="hasWellSentEmail">{{emailSentSuccess}}</div>
+      </div>
+    </modal>
+    <modal
+      name="question"
+      width="500px"
+      :height="'90%'"
+    >
+      <div class="informations">
+        <img src="./../../../assets/ic_carl.png" id="logo">
+        <h2>Clé d'affiliation ? Quézako ?</h2>
+        <p>Chez Carl, nous savons qu'il est possible qu'une seule carte de fidélité ne convienne pas à vos besoins.</p>
+        <p>En effet, peut-être êtes-vous propriétaire d'une chaîne de magasin et souhaiteriez mettre en place plusieurs cartes de fidélités.</p>
+        <p>Si c'est votre cas, alor sle système d'affiliation Carl est fait pour vous !</p>
+        <p>Lorsqu'un compte pro sera créé en renseignant cette clé d'affiliation, alors ce compte sera.. affilié au vôtre !</p>
+        <p>Concretement, cela signifiera alors que vous aurez un accès total aux statistiques générées par ce "sous-compte".</p>
+        <p>Dans le cadre d'une chaîne de magasins, vous aurez alors accès aux statistiques de tous vos magasins et pourrez les comparer.</p>
+        <p>Chaque magasin n'aura en revanche accès qu'auw statistiques qui lui sont propre !</p>
+        <p>N'attendez plus et partager votre clé à vos managers !</p>
+        <p>Vous pouvez copier coller la clé affichée ou utiliser notre système d'enoi de mail</p>
+      </div>
+    </modal>
     <div class="content">
-      <h1>Votre profil</h1>
-      <div class="save" @click="save">
-        <div v-if="!loading">Sauvegarder</div>
-        <div class="loader" v-if="loading"></div>
+      <div class="left-header">
+        <h1>Votre profil</h1>
+        <div class="save" @click="save">
+          <div v-if="!loading">Sauvegarder</div>
+          <div class="loader" v-if="loading"></div>
+        </div>
+      </div>
+      <div class="right-header" v-if="isPremium">
+        <div class="labelized-input">
+          <p class="label">Votre clé d'affiliation :</p>
+          <div class="affiliationkey">
+            <input
+              required v-model="getAffiliationKey"
+              placeholder="clé d'affiliation.."
+              type="text"
+              disabled="true"
+            />
+            <font-awesome-icon
+              id="affiliation-question-icon"
+              icon="question-circle"
+              @click="showAffiliationQuestion"
+              :style="{ color: 'white', fontSize: '30px'}"
+            />
+            <div class="show-email-button" @click="sendMail">Envoyer</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="panel">
@@ -23,14 +88,14 @@
                     required v-model="business.name"
                     placeholder="Nom de l'entité"
                     type="text"
-                    />
+                  />
                 </div>
                 <div class="labelized-input">
                   <p class="label">Description :</p>
                   <textarea
                     required v-model="business.description"
                     placeholder="Ce que votre client pourra gagner !"
-                    ></textarea>
+                  ></textarea>
                 </div>
                 <div class="labelized-input">
                   <p class="label">Adresse :</p>
@@ -39,43 +104,6 @@
                     @place_changed="setPlace"
                     :placeholder="business.address"
                   ></gmap-autocomplete>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div v-if="!mayShowCards" class="loader-container">
-              <div class="loader"></div>
-            </div>
-            <div class="card-loaded" v-if="mayShowCards">
-              <div class="title">Modifiez votre mot de passe</div>
-              <div class="card-content">
-                <div class="labelized-input">
-                  <p class="label">Ancien mot de passe :</p>
-                  <input
-                    required v-model="oldPassword"
-                    placeholder="Votre ancien mot de passe ..."
-                    type="password"
-                  />
-                </div>
-                <div class="labelized-input">
-                  <p class="label">Nouveau mot de passe :</p>
-                  <input
-                    required v-model="newPassword"
-                    placeholder="Votre nouveau mot de passe"
-                    type="password"
-                  />
-                </div>
-                <div class="labelized-input">
-                  <p class="label">Répetez le mot de passe :</p>
-                  <input
-                    required v-model="newPasswordRepeat"
-                    placeholder="Votre nouveau mot de passe"
-                    type="password"
-                  />
-                </div>
-                <div v-if="hasPasswordError" class="password-error">
-                  {{passwordError}}
                 </div>
               </div>
             </div>
@@ -191,7 +219,13 @@
 
 <script>
 import VueScroll from 'vuescroll/dist/vuescroll-slide'
-import {getCurrentBusinessInfos, getAllImages, getAllLogos, updateBusiness, login} from './../../../utils/api'
+import {
+  getAllImages,
+  getAllLogos,
+  getCurrentBusinessInfos,
+  updateBusiness,
+  sendAffiliationKey
+} from './../../../utils/api'
 
 export default {
   components: {VueScroll},
@@ -210,6 +244,10 @@ export default {
       newPassword: null,
       newPasswordRepeat: null,
       passwordError: null,
+      affiliationRecipientEmail: null,
+      isSendingMail: false,
+      emailSentError: null,
+      emailSentSuccess: null,
       ops: {
         vuescroll: {
           sizeStrategy: 'number',
@@ -230,6 +268,28 @@ export default {
     }
   },
   methods: {
+    async send () {
+      if (!this.affiliationRecipientEmail) {
+        this.emailSentError = 'Veuillez renseigner une adresse mail'
+        return
+      }
+      this.isSendingMail = true
+      const response = await sendAffiliationKey(this.affiliationRecipientEmail)
+
+      if (response.status !== 200) {
+        this.emailSentError = 'Une erreur est survenue!'
+      } else {
+        this.emailSentSuccess = 'Email envoyé !'
+      }
+
+      this.isSendingMail = false
+    },
+    sendMail () {
+      this.$modal.show('sendMail')
+    },
+    showAffiliationQuestion () {
+      this.$modal.show('question')
+    },
     setPlace (address) {
       this.selectedAddress = address.formatted_address
       console.log(`this.business.address = ${JSON.stringify(this.business.address)}`)
@@ -319,8 +379,20 @@ export default {
       })
   },
   computed: {
-    hasPasswordError () {
-      return this.passwordError
+    hasWellSentEmail () {
+      return this.emailSentSuccess
+    },
+    errorSendingEmail () {
+      return this.emailSentError
+    },
+    sendingMail () {
+      return this.isSendingMail
+    },
+    getAffiliationKey () {
+      return this.$store.getters.affiliationKey
+    },
+    isPremium () {
+      return this.$store.getters.isAdmin || this.$store.getters.isPremium
     },
     hasLoaded () {
       return this.business
@@ -345,6 +417,88 @@ export default {
 </script>
 
 <style scoped lang="sass">
+  .send-mail
+    display: flex
+    flex-direction: column
+    height: 100%
+    width: 100%
+    align-items: center
+    justify-content: space-around
+    background: linear-gradient(#007dfd, #0047fa)
+    .success
+      height: 30px
+      color: #41ff25
+      font-size: 14px
+    .error
+      height: 30px
+      color: red
+      font-size: 14px
+    #send-mail-logo
+      width: 120px
+      height: 120px
+    .text
+      display: flex
+      flex-direction: column
+      align-items: center
+      p
+        font-size: 14px
+        color: white
+        margin: 5px 0 5px 0
+        width: 90%
+        text-justify: auto
+    .send
+      padding: 10px
+      border-radius: 5px
+      width: 80px
+      color: white
+      font-size: 14px
+      background-color: #ffa214
+      text-align: center
+      display: flex
+      justify-content: center
+      align-items: center
+      margin-left: 10px
+      .loader
+        width: 8px
+        height: 8px
+    .send:hover
+      cursor: pointer
+    input
+      height: 20px
+      border-radius: 10px
+      border-width: 0
+      margin-right: 10px
+      width: 60%
+      font-size: 14px
+      color: black
+      background-color: white
+      padding: 10px
+    input:focus
+      outline: none
+  .informations
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+    padding-left: 10px
+    padding-right: 10px
+    height: 100%
+    background: linear-gradient(#007dfd, #0047fa)
+    #logo
+      height: 120px
+      width: 120px
+    h2
+      font-size: 18px
+      color: white
+      font-weight: bold
+      margin-bottom: 10px
+    p
+      font-size: 14px
+      color: white
+      margin: 5px 0 5px 0
+      width: 90%
+      text-justify: auto
   .panel-blue
     position: absolute
     top: 0
@@ -355,6 +509,49 @@ export default {
     border-radius: 0 0 0 200px
     .content
       padding: 50px
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      .right-header
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        width: 50%
+        .labelized-input
+          width: 100%
+          .label
+            color: white
+            font-size: 14px
+          .affiliationkey
+            display: flex
+            flex-direction: row
+            align-items: center
+            #affiliation-question-icon:hover
+              cursor: pointer
+            .show-email-button
+              padding: 10px
+              border-radius: 5px
+              width: 80px
+              color: white
+              font-size: 14px
+              background-color: #ffa214
+              text-align: center
+              margin-left: 10px
+            .show-email-button:hover
+              cursor: pointer
+            input
+              height: 20px
+              border-radius: 10px
+              border-width: 0
+              margin-right: 10px
+              width: 60%
+              font-size: 14px
+              color: black
+              background-color: white
+              padding: 10px
+            input:focus
+              outline: none
       h1
         color: white
         font-size: 40px
@@ -374,7 +571,7 @@ export default {
         display: flex
         justify-content: center
         align-items: center
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
         .loader
           height: 8px
           width: 8px
@@ -405,7 +602,7 @@ export default {
           margin-right: 20px
           border-radius: 15px
           padding: 20px
-          box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
           .loader-container
             display: flex
             justify-content: center

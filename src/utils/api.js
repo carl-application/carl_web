@@ -19,7 +19,8 @@ import {
   API_PUT_CURRENT_BUSINESS_DATA,
   API_REGISTER_URL,
   API_SEND_NOTIFICATION,
-  API_SEX_PARITY_COUNT_URL, API_SUSCRIBE_TO_PREMIUM
+  API_SEX_PARITY_COUNT_URL, API_SUSCRIBE_TO_PREMIUM,
+  API_SEND_AFFILIATION_KEY
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -284,6 +285,19 @@ const subscribeToPremium = (token) => new Promise((resolve, reject) => {
     })
 })
 
+const sendAffiliationKey = (recipientEmail) => new Promise((resolve, reject) => {
+  const params = {
+    recipient: recipientEmail
+  }
+  axios.post(API_SEND_AFFILIATION_KEY, null, {params})
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -306,5 +320,6 @@ export {
   adminDeleteImage,
   adminGetSettings,
   subscribeToPremium,
-  changePassword
+  changePassword,
+  sendAffiliationKey
 }

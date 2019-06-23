@@ -21,3 +21,4 @@ export const API_ADMIN_DELETE_IMAGE = `${API_BASE_URL}/admin/images`
 export const API_ADMIN_GET_SETTINGS = `${API_BASE_URL}/admin/settings`
 export const API_SUSCRIBE_TO_PREMIUM = `${API_BASE_URL}/user/subscribe`
 export const API_CHANGE_PASSSWORD = `${API_BASE_URL}/user/current`
+export const API_SEND_AFFILIATION_KEY = `${API_BASE_URL}/business/affiliation/send`

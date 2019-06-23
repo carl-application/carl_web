@@ -139,7 +139,7 @@ export default {
       return this.$store.getters.premiumCost
     },
     isPremium () {
-      return this.$store.getters.isAdmin || this.$store.isPremium
+      return this.$store.getters.isAdmin || this.$store.getters.isPremium
     }
   },
   mounted () {
