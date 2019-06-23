@@ -5,7 +5,8 @@ import {
   API_ADD_TAGS_URL,
   API_ADMIN_CREATE_IMAGE,
   API_ADMIN_DELETE_IMAGE,
-  API_ADMIN_GET_SETTINGS, API_CHANGE_PASSSWORD,
+  API_ADMIN_GET_SETTINGS,
+  API_CHANGE_PASSSWORD,
   API_CREATE_CAMPAIGN,
   API_GET_AGES_REPARTITION,
   API_GET_ALL_IMAGES,
@@ -18,9 +19,10 @@ import {
   API_LOGIN_URL,
   API_PUT_CURRENT_BUSINESS_DATA,
   API_REGISTER_URL,
+  API_SEND_AFFILIATION_KEY,
   API_SEND_NOTIFICATION,
-  API_SEX_PARITY_COUNT_URL, API_SUSCRIBE_TO_PREMIUM,
-  API_SEND_AFFILIATION_KEY
+  API_SEX_PARITY_COUNT_URL,
+  API_SUSCRIBE_TO_PREMIUM
 } from './api-routes'
 
 const login = (username, password) => new Promise((resolve, reject) => {
@@ -33,11 +35,12 @@ const login = (username, password) => new Promise((resolve, reject) => {
     })
 })
 
-const getVisitsCountForDate = (date) => new Promise((resolve, reject) => {
+const getVisitsCountForDate = (date, subEntities = []) => new Promise((resolve, reject) => {
   const params = {
-    date: date
+    date: date,
+    subEntities: subEntities
   }
-  axios.get(API_GET_VISITS_COUNT_URL, {params})
+  axios.post(API_GET_VISITS_COUNT_URL, params)
     .then((response) => {
       resolve(response)
     })
@@ -47,8 +50,12 @@ const getVisitsCountForDate = (date) => new Promise((resolve, reject) => {
     })
 })
 
-const getVisitsCountForLastMonths = (date) => new Promise((resolve, reject) => {
-  axios.get(API_GET_VISITS_COUNT_ON_LAST_MONTHS)
+const getVisitsCountForLastMonths = (date, subEntities = []) => new Promise((resolve, reject) => {
+  const params = {
+    date: date,
+    subEntities: subEntities
+  }
+  axios.post(API_GET_VISITS_COUNT_ON_LAST_MONTHS, params)
     .then((response) => {
       resolve(response)
     })
@@ -58,11 +65,12 @@ const getVisitsCountForLastMonths = (date) => new Promise((resolve, reject) => {
     })
 })
 
-const getTotalCustomersCount = (date) => new Promise((resolve, reject) => {
+const getTotalCustomersCount = (date, subEntities = []) => new Promise((resolve, reject) => {
   const params = {
-    date: date
+    date: date,
+    subEntities: subEntities
   }
-  axios.get(API_GET_TOTAL_CUSTOMERS_COUNT_URL, {params})
+  axios.post(API_GET_TOTAL_CUSTOMERS_COUNT_URL, params)
     .then((response) => {
       resolve(response)
     })
@@ -71,8 +79,8 @@ const getTotalCustomersCount = (date) => new Promise((resolve, reject) => {
     })
 })
 
-const getSexParity = () => new Promise((resolve, reject) => {
-  axios.get(API_SEX_PARITY_COUNT_URL)
+const getSexParity = (subEntities = []) => new Promise((resolve, reject) => {
+  axios.post(API_SEX_PARITY_COUNT_URL, {subEntities: subEntities})
     .then((response) => {
       resolve(response)
     })
@@ -81,8 +89,8 @@ const getSexParity = () => new Promise((resolve, reject) => {
     })
 })
 
-const getAgesRepartition = () => new Promise((resolve, reject) => {
-  axios.get(API_GET_AGES_REPARTITION)
+const getAgesRepartition = (subEntities = []) => new Promise((resolve, reject) => {
+  axios.post(API_GET_AGES_REPARTITION, {subEntities: subEntities})
     .then((response) => {
       resolve(response)
     })
@@ -155,7 +163,7 @@ const getAllLogos = () => new Promise((resolve, reject) => {
     })
 })
 
-const register = (username, password, name, address, fidelityMax, description) => new Promise((resolve, reject) => {
+const register = (username, password, name, address, fidelityMax, description, affiliationKey) => new Promise((resolve, reject) => {
   const params = {
     username: username,
     password: password,
@@ -163,9 +171,12 @@ const register = (username, password, name, address, fidelityMax, description) =
       name: name,
       address: address,
       fidelityMax: fidelityMax,
-      description: description
+      description: description,
+      affiliationKey: affiliationKey
     }
   }
+
+  console.log(`Params = ${JSON.stringify(params)}`)
   axios.post(API_REGISTER_URL, params)
     .then((response) => {
       resolve(response)

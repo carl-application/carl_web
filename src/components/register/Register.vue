@@ -164,6 +164,12 @@
           placeholder="Un mot de passe"
           type="password"
         />
+        <div class="label">Vous avez une clé d'affiliation ? Renseignez là ici :</div>
+        <input
+          required v-model="affiliationKey"
+          placeholder="Votre clé d'affiliation"
+          type="text"
+        />
       </div>
       <div class="right">
         <div class="top">
@@ -208,6 +214,7 @@ export default {
       password: '',
       passwordConfirmation: '',
       email: '',
+      affiliationKey: null,
       error: null
     }
   },
@@ -290,6 +297,7 @@ export default {
         description: this.description,
         selectedImage: this.selectedImage,
         selectedLogo: this.selectedLogo,
+        affiliationKey: this.affiliationKey,
         tags: this.tags
       }
       this.$store.dispatch(REGISTER_REQUEST, registerData)
