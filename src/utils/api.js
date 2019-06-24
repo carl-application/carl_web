@@ -36,10 +36,11 @@ const login = (username, password) => new Promise((resolve, reject) => {
     })
 })
 
-const getVisitsCountForDate = (date, subEntities = []) => new Promise((resolve, reject) => {
+const getVisitsCountForDate = (date, subEntities = [], showCurrentWhenSubEntities = false) => new Promise((resolve, reject) => {
   const params = {
     date: date,
-    subEntities: subEntities
+    subEntities: subEntities,
+    showCurrentWhenSubEntities: showCurrentWhenSubEntities
   }
   axios.post(API_GET_VISITS_COUNT_URL, params)
     .then((response) => {
@@ -51,10 +52,11 @@ const getVisitsCountForDate = (date, subEntities = []) => new Promise((resolve, 
     })
 })
 
-const getVisitsCountForLastMonths = (date, subEntities = []) => new Promise((resolve, reject) => {
+const getVisitsCountForLastMonths = (date, subEntities = [], showCurrentWhenSubEntities = false) => new Promise((resolve, reject) => {
   const params = {
     date: date,
-    subEntities: subEntities
+    subEntities: subEntities,
+    showCurrentWhenSubEntities: showCurrentWhenSubEntities
   }
   axios.post(API_GET_VISITS_COUNT_ON_LAST_MONTHS, params)
     .then((response) => {
@@ -66,10 +68,11 @@ const getVisitsCountForLastMonths = (date, subEntities = []) => new Promise((res
     })
 })
 
-const getTotalCustomersCount = (date, subEntities = []) => new Promise((resolve, reject) => {
+const getTotalCustomersCount = (date, subEntities = [], showCurrentWhenSubEntities = false) => new Promise((resolve, reject) => {
   const params = {
     date: date,
-    subEntities: subEntities
+    subEntities: subEntities,
+    showCurrentWhenSubEntities: showCurrentWhenSubEntities
   }
   axios.post(API_GET_TOTAL_CUSTOMERS_COUNT_URL, params)
     .then((response) => {
@@ -80,8 +83,11 @@ const getTotalCustomersCount = (date, subEntities = []) => new Promise((resolve,
     })
 })
 
-const getSexParity = (subEntities = []) => new Promise((resolve, reject) => {
-  axios.post(API_SEX_PARITY_COUNT_URL, {subEntities: subEntities})
+const getSexParity = (subEntities = [], showCurrentWhenSubEntities = false) => new Promise((resolve, reject) => {
+  axios.post(API_SEX_PARITY_COUNT_URL, {
+    subEntities: subEntities,
+    showCurrentWhenSubEntities: showCurrentWhenSubEntities
+  })
     .then((response) => {
       resolve(response)
     })
@@ -90,8 +96,11 @@ const getSexParity = (subEntities = []) => new Promise((resolve, reject) => {
     })
 })
 
-const getAgesRepartition = (subEntities = []) => new Promise((resolve, reject) => {
-  axios.post(API_GET_AGES_REPARTITION, {subEntities: subEntities})
+const getAgesRepartition = (subEntities = [], showCurrentWhenSubEntities = false) => new Promise((resolve, reject) => {
+  axios.post(API_GET_AGES_REPARTITION, {
+    subEntities: subEntities,
+    showCurrentWhenSubEntities: showCurrentWhenSubEntities
+  })
     .then((response) => {
       resolve(response)
     })

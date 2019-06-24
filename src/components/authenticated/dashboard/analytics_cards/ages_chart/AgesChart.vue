@@ -28,6 +28,9 @@ export default {
     }
   },
   computed: {
+    showCurrentWhenSubEntities () {
+      return this.$store.getters.showCurrentWhenSubEntities
+    },
     storeSelectedAffiliations () {
       return this.$store.getters.selectedAffiliations
     },
@@ -37,17 +40,22 @@ export default {
   },
   mounted () {
     if (this.$store.getters.hasLoadedOnce) {
-      this.fillData(this.$store.getters.selectedAffiliations)
+      this.fillData()
     }
   },
   watch: {
-    storeSelectedAffiliations (subEntities) {
-      this.fillData(subEntities)
+    storeSelectedAffiliations () {
+      this.fillData()
+    },
+    showCurrentWhenSubEntities () {
+      this.fillData()
     }
   },
   methods: {
-    fillData (subEntities) {
-      getAgesRepartition(subEntities)
+    fillData () {
+      const subEntities = this.$store.getters.selectedAffiliations
+      const showCurrentWhenSubEntities = this.$store.getters.showCurrentWhenSubEntities
+      getAgesRepartition(subEntities, showCurrentWhenSubEntities)
         .then((response) => {
           const data = response.data
           this.datacollection = {

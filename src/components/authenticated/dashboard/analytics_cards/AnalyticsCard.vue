@@ -47,18 +47,13 @@ export default {
   },
   mounted () {
     if (this.$store.getters.hasLoadedOnce) {
-      console.log(`has loaded once `)
-      const formattedDate = this.date.slice(0, this.date.indexOf('+'))
-      this.valueRetriever(formattedDate, this.$store.getters.selectedAffiliations)
-        .then((response) => {
-          this.value = response.data
-        })
-        .catch((error) => {
-          console.error(`Error getting values = ${error}`)
-        })
+      this.fillData()
     }
   },
   computed: {
+    showCurrentWhenSubEntities () {
+      return this.$store.getters.showCurrentWhenSubEntities
+    },
     storeSelectedAffiliations () {
       return this.$store.getters.selectedAffiliations
     },
@@ -98,16 +93,27 @@ export default {
       return this.value ? this.value.count : 0
     }
   },
-  watch: {
-    storeSelectedAffiliations (subEntities) {
+  methods: {
+    fillData () {
       const formattedDate = this.date.slice(0, this.date.indexOf('+'))
-      this.valueRetriever(formattedDate, subEntities)
+      this.value = null
+      const subEntities = this.$store.getters.selectedAffiliations
+      const showCurrent = this.$store.getters.showCurrentWhenSubEntities
+      this.valueRetriever(formattedDate, subEntities, showCurrent)
         .then((response) => {
           this.value = response.data
         })
         .catch((error) => {
           console.error(`Error getting values = ${error}`)
         })
+    }
+  },
+  watch: {
+    storeSelectedAffiliations () {
+      this.fillData()
+    },
+    showCurrentWhenSubEntities () {
+      this.fillData()
     }
   }
 }

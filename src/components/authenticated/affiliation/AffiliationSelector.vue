@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="selector-button" @click="showModal">
-      <p>Affiliations concernées</p>
+      <div class="button">Affiliations concernées</div>
       <font-awesome-icon icon="arrow-circle-down"/>
     </div>
     <modal
@@ -11,15 +11,7 @@
     >
       <div class="container">
         <h2>Affiliations concernées</h2>
-        <!--<div
-          class="validation"
-          @click="validate"
-        >
-          <font-awesome-icon
-            icon="check"
-            :style="{ color: 'white', fontSize: '20px'}"
-          />
-        </div>-->
+        <p>Vous ne pourrez exclure les données de votre carte {{currentBusinessName}} qu'en sélectionnant au moins une affiliation</p>
         <div class="affiliations-container">
           <div class="loader-container" v-if="areAffiliationsLoading">
             <div class="loader"></div>
@@ -29,31 +21,52 @@
             <div class="title">Vous n'avez aucune affiliation pour le moment !</div>
             <div class="subtitle">Les statistiques affichées sont donc les vôtres</div>
           </div>
-          <div
-            class="affiliation-item"
-            v-show="hasAffiliations"
-            v-for="(value, index) in affiliations"
-            v-bind:key="index"
-          >
-            <div
-              class="affiliation"
-              @click="toggleAffiliationSelection(value.id)"
-            >
+          <div class="loaded-container">
+            <div class="affiliation-item">
               <div
-                class="images"
+                class="affiliation current"
+                @click="toggleCurrentSelection()"
               >
-                <img :src="logoUrl(value)" id="logo"/>
+                <div class="images">
+                  <img :src="currentBusinessLogo" class="logo"/>
+                </div>
+                <div class="infos">
+                  <div class="name">Inclure vos données ?</div>
+                  <div class="address">Les données de la carte {{currentBusinessName}} seront prises en compte</div>
+                </div>
               </div>
-              <div class="infos">
-                <div class="name">{{value.name}}</div>
-                <div class="address">{{value.address}}</div>
-              </div>
+              <div
+                class="select"
+                :class="{selected: isCurrentSelected()}"
+                @click="toggleCurrentSelection()"
+              ></div>
             </div>
             <div
-              class="select"
-              :class="{selected: isAffiliationSelected(value.id)}"
-              @click="toggleAffiliationSelection(value.id)"
-            ></div>
+              class="affiliation-item"
+              v-show="hasAffiliations"
+              v-for="(value, index) in affiliations"
+              v-bind:key="index"
+            >
+              <div
+                class="affiliation"
+                @click="toggleAffiliationSelection(value.id)"
+              >
+                <div
+                  class="images"
+                >
+                  <img :src="logoUrl(value)" class="logo"/>
+                </div>
+                <div class="infos">
+                  <div class="name">{{value.name}}</div>
+                  <div class="address">{{value.address}}</div>
+                </div>
+              </div>
+              <div
+                class="select"
+                :class="{selected: isAffiliationSelected(value.id)}"
+                @click="toggleAffiliationSelection(value.id)"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
@@ -61,11 +74,14 @@
   </div>
 </template>
 <script>
-import {TOGGLE_AFFILIATION} from '../../../store/actions/affiliations'
+import {TOGGLE_AFFILIATION, TOGGLE_SHOWING_CURRENT} from '../../../store/actions/affiliations'
 import {REQUEST_AFFILIATIONS_LOADING} from '../../../store/status/affiliations'
 
 export default {
   computed: {
+    currentBusinessName () {
+      return this.$store.getters.business.name
+    },
     affiliations () {
       return this.$store.getters.storedAffiliations
     },
@@ -77,6 +93,10 @@ export default {
     },
     hasAffiliations () {
       return this.$store.getters.status !== REQUEST_AFFILIATIONS_LOADING && this.affiliations && this.affiliations.length > 0
+    },
+    currentBusinessLogo () {
+      if (!this.$store.getters.business || !this.$store.getters.business.logo) return ''
+      return this.$store.getters.business.logo.url
     }
   },
   methods: {
@@ -89,11 +109,14 @@ export default {
     isAffiliationSelected (affiliationId) {
       return this.$store.getters.selectedAffiliations.includes(affiliationId)
     },
+    isCurrentSelected () {
+      return this.$store.getters.showCurrentWhenSubEntities
+    },
     toggleAffiliationSelection (affiliationId) {
       this.$store.dispatch(TOGGLE_AFFILIATION, affiliationId)
     },
-    validate () {
-      this.$modal.hide('modal')
+    toggleCurrentSelection () {
+      this.$store.dispatch(TOGGLE_SHOWING_CURRENT)
     }
   }
 }
@@ -138,6 +161,10 @@ export default {
     h2
       color: #858997
       font-size: 20px
+    p
+      color: #858997
+      font-size: 14px
+      text-align: center
     .loader-container
       height: 90%
       display: flex
@@ -166,6 +193,8 @@ export default {
         .affiliation:hover
           cursor: pointer
           box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+        .current
+          padding: 15px
         .affiliation
           display: flex
           flex-direction: row
@@ -196,7 +225,7 @@ export default {
               width: 40px
               border-radius: 10px
               object-fit: cover
-            #logo
+            .logo
               height: 25px
               width: 25px
               object-fit: contain

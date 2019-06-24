@@ -83,11 +83,11 @@ export default {
     }
   },
   methods: {
-    visitsCountForDate (date, subEntities) {
-      return getVisitsCountForDate(date, subEntities)
+    visitsCountForDate (date, subEntities, showCurrentWhenSubEntities) {
+      return getVisitsCountForDate(date, subEntities, showCurrentWhenSubEntities)
     },
-    totalCUstomersCount (date, subEntities) {
-      return getTotalCustomersCount(date, subEntities)
+    totalCUstomersCount (date, subEntities, showCurrentWhenSubEntities) {
+      return getTotalCustomersCount(date, subEntities, showCurrentWhenSubEntities)
     }
   }
 }

@@ -1,4 +1,9 @@
-import {REQUEST_AFFILIATIONS, TOGGLE_AFFILIATION, UPDATE_AFFILIATIONS} from '../actions/affiliations'
+import {
+  REQUEST_AFFILIATIONS,
+  TOGGLE_AFFILIATION,
+  TOGGLE_SHOWING_CURRENT,
+  UPDATE_AFFILIATIONS
+} from '../actions/affiliations'
 
 import {
   REQUEST_AFFILIATIONS_ERROR,
@@ -12,13 +17,15 @@ const state = {
   affiliations: null,
   selectedAffiliationsIds: null,
   status: '',
-  loadedOnce: false
+  loadedOnce: false,
+  showCurrent: false
 }
 
 const getters = {
   storedAffiliations: state => state.affiliations,
   selectedAffiliations: state => state.selectedAffiliationsIds,
-  hasLoadedOnce: state => state.loadedOnce
+  hasLoadedOnce: state => state.loadedOnce,
+  showCurrentWhenSubEntities: state => state.showCurrent
 }
 
 const actions = {
@@ -50,6 +57,12 @@ const actions = {
       commit(TOGGLE_AFFILIATION, affiliationID)
       resolve()
     })
+  },
+  [TOGGLE_SHOWING_CURRENT]: ({commit, dispatch}) => {
+    return new Promise(async (resolve, reject) => {
+      commit(TOGGLE_SHOWING_CURRENT)
+      resolve()
+    })
   }
 }
 
@@ -63,6 +76,9 @@ const mutations = {
       temp.push(affiliationID)
     }
     state.selectedAffiliationsIds = temp
+    if (state.selectedAffiliationsIds.length === 0) {
+      state.showCurrent = true
+    }
   },
   [UPDATE_AFFILIATIONS]: (state, affiliations) => {
     state.affiliations = affiliations
@@ -83,6 +99,11 @@ const mutations = {
     state.affiliations = []
     state.selectedAffiliationsIds = []
     state.loadedOnce = true
+  },
+  [TOGGLE_SHOWING_CURRENT]: (state) => {
+    if (state.selectedAffiliationsIds.length > 0) {
+      state.showCurrent = !state.showCurrent
+    }
   }
 }
 

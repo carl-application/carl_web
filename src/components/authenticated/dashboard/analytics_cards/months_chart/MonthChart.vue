@@ -26,6 +26,9 @@ export default {
     }
   },
   computed: {
+    showCurrentWhenSubEntities () {
+      return this.$store.getters.showCurrentWhenSubEntities
+    },
     storeSelectedAffiliations () {
       return this.$store.getters.selectedAffiliations
     },
@@ -35,18 +38,23 @@ export default {
   },
   mounted () {
     if (this.$store.getters.hasLoadedOnce) {
-      this.fillData(this.$store.getters.selectedAffiliations)
+      this.fillData()
     }
   },
   watch: {
-    storeSelectedAffiliations (subEntities) {
-      this.fillData(subEntities)
+    storeSelectedAffiliations () {
+      this.fillData()
+    },
+    showCurrentWhenSubEntities () {
+      this.fillData()
     }
   },
   methods: {
-    fillData (subEntities) {
+    fillData () {
       const formattedDate = this.date.slice(0, this.date.indexOf('+'))
-      getVisitsCountForLastMonths(formattedDate, subEntities)
+      const subEntities = this.$store.getters.selectedAffiliations
+      const showCurrentWhenSubEntities = this.$store.getters.showCurrentWhenSubEntities
+      getVisitsCountForLastMonths(formattedDate, subEntities, showCurrentWhenSubEntities)
         .then((response) => {
           const data = response.data
           this.datacollection = {
@@ -81,7 +89,7 @@ export default {
     display: flex
     flex-direction: column
     box-sizing: border-box
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
     border-radius: 15px
     justify-content: center
     align-items: start

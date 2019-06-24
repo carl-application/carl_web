@@ -37,6 +37,9 @@ export default {
     }
   },
   computed: {
+    showCurrentWhenSubEntities () {
+      return this.$store.getters.showCurrentWhenSubEntities
+    },
     storeSelectedAffiliations () {
       return this.$store.getters.selectedAffiliations
     },
@@ -45,8 +48,10 @@ export default {
     }
   },
   methods: {
-    fillData (subEntities) {
-      getSexParity(subEntities)
+    fillData () {
+      const subEntities = this.$store.getters.selectedAffiliations
+      const showCurrentWhenSubEntities = this.$store.getters.showCurrentWhenSubEntities
+      getSexParity(subEntities, showCurrentWhenSubEntities)
         .then((response) => {
           const menCount = response.data.men
           const womenCount = response.data.women
@@ -71,12 +76,15 @@ export default {
   },
   mounted () {
     if (this.$store.getters.hasLoadedOnce) {
-      this.fillData(this.$store.getters.selectedAffiliations)
+      this.fillData()
     }
   },
   watch: {
-    storeSelectedAffiliations (subEntities) {
-      this.fillData(subEntities)
+    storeSelectedAffiliations () {
+      this.fillData()
+    },
+    showCurrentWhenSubEntities () {
+      this.fillData()
     }
   }
 }
@@ -88,7 +96,7 @@ export default {
     display: flex
     flex-direction: column
     box-sizing: border-box
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
     border-radius: 15px
     align-items: start
     padding: 15px
@@ -100,7 +108,7 @@ export default {
     display: flex
     flex-direction: column
     box-sizing: border-box
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
     border-radius: 15px
     align-items: center
     justify-content: center
