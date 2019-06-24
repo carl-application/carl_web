@@ -8,6 +8,7 @@ import {
   API_ADMIN_GET_SETTINGS,
   API_CHANGE_PASSSWORD,
   API_CREATE_CAMPAIGN,
+  API_GET_AFFILIATIONS,
   API_GET_AGES_REPARTITION,
   API_GET_ALL_IMAGES,
   API_GET_ALL_LOGOS,
@@ -309,6 +310,16 @@ const sendAffiliationKey = (recipientEmail) => new Promise((resolve, reject) => 
     })
 })
 
+const getAffiliations = () => new Promise((resolve, reject) => {
+  axios.get(API_GET_AFFILIATIONS)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -332,5 +343,6 @@ export {
   adminGetSettings,
   subscribeToPremium,
   changePassword,
-  sendAffiliationKey
+  sendAffiliationKey,
+  getAffiliations
 }

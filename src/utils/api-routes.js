@@ -22,3 +22,4 @@ export const API_ADMIN_GET_SETTINGS = `${API_BASE_URL}/admin/settings`
 export const API_SUSCRIBE_TO_PREMIUM = `${API_BASE_URL}/user/subscribe`
 export const API_CHANGE_PASSSWORD = `${API_BASE_URL}/user/current`
 export const API_SEND_AFFILIATION_KEY = `${API_BASE_URL}/business/affiliation/send`
+export const API_GET_AFFILIATIONS = `${API_BASE_URL}/business/affiliation`

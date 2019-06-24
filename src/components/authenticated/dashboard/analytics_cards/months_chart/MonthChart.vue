@@ -25,18 +25,23 @@ export default {
       monthsLabels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
     }
   },
-  mounted () {
-    this.fillData()
-  },
   computed: {
+    storeSelectedAffiliations () {
+      return this.$store.getters.selectedAffiliations
+    },
     hasData () {
       return this.datacollection
     }
   },
+  watch: {
+    storeSelectedAffiliations (subEntities) {
+      this.fillData(subEntities)
+    }
+  },
   methods: {
-    fillData () {
+    fillData (subEntities) {
       const formattedDate = this.date.slice(0, this.date.indexOf('+'))
-      getVisitsCountForLastMonths(formattedDate)
+      getVisitsCountForLastMonths(formattedDate, subEntities)
         .then((response) => {
           const data = response.data
           this.datacollection = {

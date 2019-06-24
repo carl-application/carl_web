@@ -1,8 +1,13 @@
 <template>
   <div class="panel-blue">
     <div class="content">
-      <h1>Hello !</h1>
-      <p class="subtitle">Voici votre dashboard</p>
+      <div class="left">
+        <h1>Hello !</h1>
+        <p class="subtitle">Voici votre dashboard</p>
+      </div>
+      <div class="right" v-if="isPremium">
+        <affiliation-selector></affiliation-selector>
+      </div>
     </div>
     <div class="panel">
       <vue-scroll :ops="ops">
@@ -47,11 +52,13 @@ import SexStats from './analytics_cards/pie/SexStats'
 import MonthsStats from './analytics_cards/months_chart/MonthChart'
 import AgesStats from './analytics_cards/ages_chart/AgesChart'
 import VueScroll from 'vuescroll/dist/vuescroll-slide'
+import AffiliationSelector from './../affiliation/AffiliationSelector'
 
 export default {
-  components: {AnalyticsCard, SexStats, MonthsStats, AgesStats, VueScroll},
+  components: {AnalyticsCard, SexStats, MonthsStats, AgesStats, VueScroll, AffiliationSelector},
   data () {
     return {
+      selectedAffiliations: null,
       ops: {
         vuescroll: {
           sizeStrategy: 'number',
@@ -71,12 +78,25 @@ export default {
       }
     }
   },
+  computed: {
+    storeAffiliations () {
+      return this.$store.getters.selectedAffiliations
+    },
+    isPremium () {
+      return this.$store.getters.isAdmin || this.$store.getters.isPremium
+    }
+  },
   methods: {
     visitsCountForDate (date) {
-      return getVisitsCountForDate(date)
+      return getVisitsCountForDate(date, this.selectedAffiliations ? this.selectedAffiliations : [])
     },
     totalCUstomersCount (date) {
-      return getTotalCustomersCount(date)
+      return getTotalCustomersCount(date, this.selectedAffiliations ? this.selectedAffiliations : [])
+    }
+  },
+  watch: {
+    storeAffiliations (newValue) {
+      this.selectedAffiliations = newValue
     }
   }
 }
@@ -94,6 +114,9 @@ export default {
 
     .content
       padding: 50px
+      display: flex
+      flex-direction: row
+      justify-content: space-between
 
     h1
       color: white

@@ -36,7 +36,8 @@ export default {
     title: String,
     valueRetriever: {type: Function},
     tooltipLabelSingular: String,
-    tooltipLabelPlural: String
+    tooltipLabelPlural: String,
+    selectedAffiliation: Array
   },
   data () {
     return {
@@ -44,17 +45,10 @@ export default {
       date: momentTz().tz('Europe/Paris').format()
     }
   },
-  mounted () {
-    const formattedDate = this.date.slice(0, this.date.indexOf('+'))
-    this.valueRetriever(formattedDate)
-      .then((response) => {
-        this.value = response.data
-      })
-      .catch((error) => {
-        console.error(`Error getting values = ${error}`)
-      })
-  },
   computed: {
+    storeSelectedAffiliations () {
+      return this.$store.getters.selectedAffiliations
+    },
     singularTooltip () {
       return this.tooltipLabelSingular
     },
@@ -89,6 +83,18 @@ export default {
     },
     count () {
       return this.value ? this.value.count : 0
+    }
+  },
+  watch: {
+    storeSelectedAffiliations (_) {
+      const formattedDate = this.date.slice(0, this.date.indexOf('+'))
+      this.valueRetriever(formattedDate)
+        .then((response) => {
+          this.value = response.data
+        })
+        .catch((error) => {
+          console.error(`Error getting values = ${error}`)
+        })
     }
   }
 }

@@ -105,7 +105,7 @@ import {AUTH_LOGOUT} from '../../store/actions/auth'
 import {REQUEST_CURRENT_BUSINESS} from '../../store/actions/business'
 import {REQUEST_STATUS_CURRENT_BUSINESS_SUCCESS} from '../../store/status/business'
 import {REQUEST_SETTINGS} from '../../store/actions/settings'
-// import {subscribeToPremium} from '../../utils/api'
+import {REQUEST_AFFILIATIONS} from '../../store/actions/affiliations'
 
 export default {
   data () {
@@ -146,6 +146,7 @@ export default {
     // this.$router.push('Dashboard')
     this.$store.dispatch(REQUEST_CURRENT_BUSINESS)
     this.$store.dispatch(REQUEST_SETTINGS)
+    this.$store.dispatch(REQUEST_AFFILIATIONS)
   }
 }
 </script>

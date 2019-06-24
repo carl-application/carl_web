@@ -27,17 +27,22 @@ export default {
       }
     }
   },
-  mounted () {
-    this.fillData()
-  },
   computed: {
+    storeSelectedAffiliations () {
+      return this.$store.getters.selectedAffiliations
+    },
     hasData () {
       return this.datacollection
     }
   },
+  watch: {
+    storeSelectedAffiliations (subEntities) {
+      this.fillData(subEntities)
+    }
+  },
   methods: {
-    fillData () {
-      getAgesRepartition()
+    fillData (subEntities) {
+      getAgesRepartition(subEntities)
         .then((response) => {
           const data = response.data
           this.datacollection = {

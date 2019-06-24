@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './modules/auth'
 import business from './modules/business'
 import settings from './modules/settings'
+import affiliations from './modules/affiliations'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
   modules: {
     auth,
     business,
-    settings
+    settings,
+    affiliations
   },
   strict: debug
 })

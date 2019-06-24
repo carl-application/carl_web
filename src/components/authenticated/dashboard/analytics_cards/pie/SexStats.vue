@@ -37,32 +37,37 @@ export default {
     }
   },
   computed: {
+    storeSelectedAffiliations () {
+      return this.$store.getters.selectedAffiliations
+    },
     isLoading () {
       return !this.dataCollection
     }
   },
-  mounted () {
-    getSexParity()
-      .then((response) => {
-        const menCount = response.data.men
-        const womenCount = response.data.women
-        const npCount = response.data.np
-        this.dataCollection = {
-          datasets: [{
-            data: [menCount, womenCount, npCount],
-            backgroundColor: [this.colors[0], this.colors[1], this.colors[2]]
-          }],
+  watch: {
+    storeSelectedAffiliations (subEntities) {
+      getSexParity(subEntities)
+        .then((response) => {
+          const menCount = response.data.men
+          const womenCount = response.data.women
+          const npCount = response.data.np
+          this.dataCollection = {
+            datasets: [{
+              data: [menCount, womenCount, npCount],
+              backgroundColor: [this.colors[0], this.colors[1], this.colors[2]]
+            }],
 
-          labels: [
-            'Hommes',
-            'Femmes',
-            'N.P'
-          ]
-        }
-      })
-      .catch((error) => {
-        console.log(`Error getting sex parities = ${error}`)
-      })
+            labels: [
+              'Hommes',
+              'Femmes',
+              'N.P'
+            ]
+          }
+        })
+        .catch((error) => {
+          console.log(`Error getting sex parities = ${error}`)
+        })
+    }
   }
 }
 </script>
