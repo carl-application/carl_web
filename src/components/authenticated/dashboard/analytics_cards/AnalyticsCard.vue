@@ -118,7 +118,7 @@ export default {
     background-color: white
     display: flex
     box-sizing: border-box
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
     padding: 15px
     border-radius: 15px
     justify-content: center
@@ -129,7 +129,7 @@ export default {
     background-color: white
     display: flex
     box-sizing: border-box
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
     border-radius: 15px
     justify-content: space-between
     align-items: center
