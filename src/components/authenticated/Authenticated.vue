@@ -144,9 +144,10 @@ export default {
   },
   mounted () {
     // this.$router.push('Dashboard')
-    this.$store.dispatch(REQUEST_CURRENT_BUSINESS)
+    this.$store.dispatch(REQUEST_CURRENT_BUSINESS).then(() => {
+      this.$store.dispatch(REQUEST_AFFILIATIONS, this.$store.getters.isPremium)
+    })
     this.$store.dispatch(REQUEST_SETTINGS)
-    this.$store.dispatch(REQUEST_AFFILIATIONS)
   }
 }
 </script>

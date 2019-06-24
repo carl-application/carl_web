@@ -9,27 +9,33 @@ import {
 import {getAffiliations} from '../../utils/api'
 
 const state = {
-  affiliations: [],
-  selectedAffiliationsIds: [],
-  status: ''
+  affiliations: null,
+  selectedAffiliationsIds: null,
+  status: '',
+  loadedOnce: false
 }
 
 const getters = {
   storedAffiliations: state => state.affiliations,
-  selectedAffiliations: state => state.selectedAffiliationsIds
+  selectedAffiliations: state => state.selectedAffiliationsIds,
+  hasLoadedOnce: state => state.loadedOnce
 }
 
 const actions = {
-  [REQUEST_AFFILIATIONS]: ({commit, dispatch}) => {
+  [REQUEST_AFFILIATIONS]: ({commit, dispatch}, isPremium) => {
     return new Promise(async (resolve, reject) => {
       commit(REQUEST_AFFILIATIONS)
-      try {
-        const response = await getAffiliations()
-        commit(REQUEST_AFFILIATIONS_SUCCESS, response.data)
-        resolve(response.data)
-      } catch (error) {
-        commit(REQUEST_AFFILIATIONS_ERROR, error)
-        reject(error)
+      if (!isPremium) {
+        commit(REQUEST_AFFILIATIONS_SUCCESS, [])
+        resolve([])
+      } else {
+        try {
+          const response = await getAffiliations()
+          commit(REQUEST_AFFILIATIONS_SUCCESS, response.data)
+          resolve(response.data)
+        } catch (error) {
+          commit(REQUEST_AFFILIATIONS_ERROR, error)
+        }
       }
     })
   },
@@ -68,12 +74,15 @@ const mutations = {
   [REQUEST_AFFILIATIONS_SUCCESS]: (state, affiliations) => {
     state.status = REQUEST_AFFILIATIONS_SUCCESS
     state.affiliations = affiliations
+    state.selectedAffiliationsIds = []
     affiliations.map((aff) => state.selectedAffiliationsIds.push(aff.id))
+    state.loadedOnce = true
   },
   [REQUEST_AFFILIATIONS_ERROR]: (state) => {
     state.status = REQUEST_AFFILIATIONS_ERROR
     state.affiliations = []
     state.selectedAffiliationsIds = []
+    state.loadedOnce = true
   }
 }
 

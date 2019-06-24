@@ -44,8 +44,8 @@ export default {
       return !this.dataCollection
     }
   },
-  watch: {
-    storeSelectedAffiliations (subEntities) {
+  methods: {
+    fillData (subEntities) {
       getSexParity(subEntities)
         .then((response) => {
           const menCount = response.data.men
@@ -67,6 +67,16 @@ export default {
         .catch((error) => {
           console.log(`Error getting sex parities = ${error}`)
         })
+    }
+  },
+  mounted () {
+    if (this.$store.getters.hasLoadedOnce) {
+      this.fillData(this.$store.getters.selectedAffiliations)
+    }
+  },
+  watch: {
+    storeSelectedAffiliations (subEntities) {
+      this.fillData(subEntities)
     }
   }
 }

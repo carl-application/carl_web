@@ -577,6 +577,8 @@ export default {
           width: 8px
       .save:hover
         cursor: pointer
+    .panel:hover
+      cursor: pointer
     .panel
       overflow: hidden
       padding: 20px

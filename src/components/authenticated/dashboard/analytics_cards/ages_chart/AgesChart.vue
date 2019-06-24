@@ -35,6 +35,11 @@ export default {
       return this.datacollection
     }
   },
+  mounted () {
+    if (this.$store.getters.hasLoadedOnce) {
+      this.fillData(this.$store.getters.selectedAffiliations)
+    }
+  },
   watch: {
     storeSelectedAffiliations (subEntities) {
       this.fillData(subEntities)

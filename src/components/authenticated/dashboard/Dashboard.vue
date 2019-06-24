@@ -58,7 +58,6 @@ export default {
   components: {AnalyticsCard, SexStats, MonthsStats, AgesStats, VueScroll, AffiliationSelector},
   data () {
     return {
-      selectedAffiliations: null,
       ops: {
         vuescroll: {
           sizeStrategy: 'number',
@@ -79,24 +78,16 @@ export default {
     }
   },
   computed: {
-    storeAffiliations () {
-      return this.$store.getters.selectedAffiliations
-    },
     isPremium () {
       return this.$store.getters.isAdmin || this.$store.getters.isPremium
     }
   },
   methods: {
-    visitsCountForDate (date) {
-      return getVisitsCountForDate(date, this.selectedAffiliations ? this.selectedAffiliations : [])
+    visitsCountForDate (date, subEntities) {
+      return getVisitsCountForDate(date, subEntities)
     },
-    totalCUstomersCount (date) {
-      return getTotalCustomersCount(date, this.selectedAffiliations ? this.selectedAffiliations : [])
-    }
-  },
-  watch: {
-    storeAffiliations (newValue) {
-      this.selectedAffiliations = newValue
+    totalCUstomersCount (date, subEntities) {
+      return getTotalCustomersCount(date, subEntities)
     }
   }
 }
@@ -136,6 +127,8 @@ export default {
       bottom: -130px
       right: 0
       width: 85%
+    .panel:hover
+      cursor: pointer
 
     .panel-wrapper
       align-items: start

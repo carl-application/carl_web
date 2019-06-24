@@ -45,6 +45,19 @@ export default {
       date: momentTz().tz('Europe/Paris').format()
     }
   },
+  mounted () {
+    if (this.$store.getters.hasLoadedOnce) {
+      console.log(`has loaded once `)
+      const formattedDate = this.date.slice(0, this.date.indexOf('+'))
+      this.valueRetriever(formattedDate, this.$store.getters.selectedAffiliations)
+        .then((response) => {
+          this.value = response.data
+        })
+        .catch((error) => {
+          console.error(`Error getting values = ${error}`)
+        })
+    }
+  },
   computed: {
     storeSelectedAffiliations () {
       return this.$store.getters.selectedAffiliations
@@ -86,9 +99,9 @@ export default {
     }
   },
   watch: {
-    storeSelectedAffiliations (_) {
+    storeSelectedAffiliations (subEntities) {
       const formattedDate = this.date.slice(0, this.date.indexOf('+'))
-      this.valueRetriever(formattedDate)
+      this.valueRetriever(formattedDate, subEntities)
         .then((response) => {
           this.value = response.data
         })
