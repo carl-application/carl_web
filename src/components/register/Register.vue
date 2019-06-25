@@ -155,7 +155,7 @@
         <div class="label">Mot de passe :</div>
         <input
           required v-model="password"
-          placeholder="Un mot de passe"
+          placeholder="Un mot de pass (6 caractères, 1 majuscule, 1 chiffre)"
           type="password"
         />
         <div class="label">Confirmation :</div>
@@ -191,8 +191,8 @@
 <script>
 import {getAllImages, getAllLogos} from './../../utils/api'
 import VueScroll from 'vuescroll/dist/vuescroll-slide'
-import {REGISTER_REQUEST} from '../../store/actions/auth'
 import {REGISTER_STATUS_LOADING} from '../../store/status/auth'
+import {REGISTER_REQUEST} from '../../store/actions/auth'
 
 export default {
   components: {VueScroll},
@@ -276,13 +276,36 @@ export default {
     removeTag (index) {
       this.tags.splice(index, 1)
     },
-    register () {
+    register: function () {
       if (!this.email || !this.password || !this.passwordConfirmation) {
         this.error = 'Tous les champs doivent être renseignés'
         return
       }
       if (this.password !== this.passwordConfirmation) {
         this.error = 'Les deux mots de passe ne sont pas identiques'
+        return
+      }
+
+      if (this.password.length < 6) {
+        this.error = 'Le mot de passe doit contenir au moins 6 caractères'
+        return
+      }
+
+      let oneNumber = false
+      let oneUppercase = false
+
+      for (let letter of this.password) {
+        if (isNaN(letter)) {
+          oneNumber = true
+        } else {
+          if (letter === letter.toUpperCase()) {
+            oneUppercase = true
+          }
+        }
+      }
+
+      if (!oneNumber || !oneUppercase) {
+        this.error = 'Le mot de passe doit contenir une majuscule et un chiffre'
         return
       }
 
