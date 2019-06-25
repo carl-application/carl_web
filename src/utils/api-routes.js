@@ -23,3 +23,4 @@ export const API_SUSCRIBE_TO_PREMIUM = `${API_BASE_URL}/user/subscribe`
 export const API_CHANGE_PASSSWORD = `${API_BASE_URL}/user/current`
 export const API_SEND_AFFILIATION_KEY = `${API_BASE_URL}/business/affiliation/send`
 export const API_GET_AFFILIATIONS = `${API_BASE_URL}/business/affiliation`
+export const API_DELETE_BUSINESS = `${API_BASE_URL}/business/current`

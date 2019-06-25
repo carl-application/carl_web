@@ -8,6 +8,7 @@ import {
   API_ADMIN_GET_SETTINGS,
   API_CHANGE_PASSSWORD,
   API_CREATE_CAMPAIGN,
+  API_DELETE_BUSINESS,
   API_GET_AFFILIATIONS,
   API_GET_AGES_REPARTITION,
   API_GET_ALL_IMAGES,
@@ -329,6 +330,16 @@ const getAffiliations = () => new Promise((resolve, reject) => {
     })
 })
 
+const deleteBusiness = () => new Promise((resolve, reject) => {
+  axios.delete(API_DELETE_BUSINESS)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
 export {
   login,
   getVisitsCountForDate,
@@ -353,5 +364,6 @@ export {
   subscribeToPremium,
   changePassword,
   sendAffiliationKey,
-  getAffiliations
+  getAffiliations,
+  deleteBusiness
 }

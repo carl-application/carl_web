@@ -1,6 +1,34 @@
 <template>
   <div class="panel-blue">
     <modal
+      name="deletionModal"
+      width="500px"
+      :height="'80%'"
+    >
+      <div class="deletion-modal">
+        <img src="./../../../assets/ic_carl.png" class="logo"/>
+        <h2>Voulez-vous vraiment supprimer votre compte ?</h2>
+        <div>Dans un souci de respect de vos données, nous effacerons alors totalement toutes ces données :</div>
+        <ul>
+          <li>Votre compte</li>
+          <li>Votre historique de visites</li>
+          <li>Vos liens avec vos clients</li>
+          <li>Vos notifications</li>
+          <li>Vos tags</li>
+        </ul>
+        <div class="important">
+          Il est donc important de prendre en compte que la suppression de votre compte est définitive et nous ne serons plus jamais en mesure de récupérer ces informations.
+        </div>
+        <div class="validations-buttons">
+          <div class="cancel" @click="cancelDeletion">Annuler</div>
+          <div class="validate" @click="confirmDeletion">
+            <div v-if="!isDeleting">Supprimer</div>
+            <div class="loader" v-if="isDeleting"></div>
+          </div>
+        </div>
+      </div>
+    </modal>
+    <modal
       name="sendMail"
       width="400px"
       height="400px"
@@ -46,9 +74,12 @@
     <div class="content">
       <div class="left-header">
         <h1>Votre profil</h1>
-        <div class="save" @click="save">
-          <div v-if="!loading">Sauvegarder</div>
-          <div class="loader" v-if="loading"></div>
+        <div class="buttons">
+          <div class="save" @click="save">
+            <div v-if="!loading">Sauvegarder</div>
+            <div class="loader" v-if="loading"></div>
+          </div>
+          <div class="delete" @click="showDeletionModal">Supprimer</div>
         </div>
       </div>
       <div class="right-header" v-if="isPremium">
@@ -224,8 +255,10 @@ import {
   getAllLogos,
   getCurrentBusinessInfos,
   updateBusiness,
-  sendAffiliationKey
+  sendAffiliationKey,
+  deleteBusiness
 } from './../../../utils/api'
+import {AUTH_LOGOUT} from '../../../store/actions/auth'
 
 export default {
   components: {VueScroll},
@@ -248,6 +281,7 @@ export default {
       isSendingMail: false,
       emailSentError: null,
       emailSentSuccess: null,
+      deletionLoading: false,
       ops: {
         vuescroll: {
           sizeStrategy: 'number',
@@ -283,6 +317,22 @@ export default {
       }
 
       this.isSendingMail = false
+    },
+    async confirmDeletion () {
+      this.deletionLoading = true
+      try {
+        await deleteBusiness()
+        await this.$store.dispatch(AUTH_LOGOUT)
+        this.$router.push('/Login')
+        this.deletionLoading = false
+      } catch (_) {
+      }
+    },
+    cancelDeletion () {
+      this.$modal.hide('deletionModal')
+    },
+    showDeletionModal () {
+      this.$modal.show('deletionModal')
     },
     sendMail () {
       this.$modal.show('sendMail')
@@ -379,6 +429,9 @@ export default {
       })
   },
   computed: {
+    isDeleting () {
+      return this.deletionLoading
+    },
     hasWellSentEmail () {
       return this.emailSentSuccess
     },
@@ -417,6 +470,65 @@ export default {
 </script>
 
 <style scoped lang="sass">
+  .deletion-modal
+    background-color: #f8f9fb
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    align-items: center
+    padding: 20px
+    height: 90%
+    color: #858997
+    overflow: scroll
+    .logo
+      height: 120px
+      width: 120px
+    h2
+      font-size: 18px
+      font-weight: bold
+      color: black
+    ul
+      margin: 10px 0 10px 15px
+      list-style-type: circle
+      align-self: start
+    .important
+      background-color: #ff9790
+      color: white
+      padding: 10px
+      border-radius: 5px
+      margin-top: 10px
+    .validations-buttons
+      display: flex
+      flex-direction: row
+      justify-content: space-around
+      width: 80%
+      margin-top: 20px
+      .validate
+        background-color: red
+        padding: 10px
+        border-radius: 5px
+        font-size: 14px
+        width: 80px
+        text-align: center
+        color: white
+        display: flex
+        justify-content: center
+        align-items: center
+        .loader
+          width: 6px
+          height: 6px
+      .validate:hover
+        cursor: pointer
+      .cancel
+        background-color: white
+        padding: 10px
+        border-radius: 5px
+        font-size: 14px
+        width: 80px
+        text-align: center
+        color: black
+      .cancel:hover
+        cursor: pointer
   .send-mail
     display: flex
     flex-direction: column
@@ -557,6 +669,27 @@ export default {
         font-size: 40px
         font-family: 'Roboto Regular', sans-serif
         margin: 0
+      .buttons
+        display: flex
+        flex-direction: row
+      .delete
+        width: 100px
+        height: 20px
+        background-color: red
+        margin-left: 10px
+        padding: 15px
+        color: white
+        font-weight: bold
+        font-size: 14px
+        text-align: center
+        margin-top: 15px
+        border-radius: 10px
+        display: flex
+        justify-content: center
+        align-items: center
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
+      .delete:hover
+        cursor: pointer
       .save
         width: 100px
         height: 20px
