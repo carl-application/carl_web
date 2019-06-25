@@ -100,7 +100,7 @@ export default {
     }
   },
   methods: {
-    async showModal () {
+    showModal () {
       this.$modal.show('modal')
     },
     logoUrl (affiliation) {

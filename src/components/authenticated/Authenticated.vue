@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!--<modal
+    <modal
       name="premium-modal"
       :width="'50%'"
       :height="'50%'"
@@ -9,45 +9,30 @@
         <div class="content">
           <div class="left">
             <h2>Moyen de paiement</h2>
-            <div class='credit-card-inputs' :class='{ complete }'>
-              <card-number class='stripe-element card-number'
-                           ref='cardNumber'
-                           :stripe='stripeKey'
-                           :options='options'
-                           @change='number = $event.complete'
-              ></card-number>
-              <card-expiry class='stripe-element card-expiry'
-                           ref='cardExpiry'
-                           :stripe='stripeKey'
-                           :options='options'
-                           @change='expiry = $event.complete'
-              ></card-expiry>
-              <card-cvc class='stripe-element card-cvc'
-                    ref='cardCvc'
-                    :stripe='stripeKey'
-                    :options='options'
-                    @change='cvc = $event.complete'
-          ></card-cvc>
-            </div>
-            <div class="price">{{getPremiumCost}} Euros / mois</div>
-            <div class='pay-with-stripe' @click='pay' :disabled='!complete'>
-              <div v-if="!isPaying">Payer</div>
-              <div class="loader" v-if="isPaying"></div>
-            </div>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="Q7DAS2PPKVXWC">
+              <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+              <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+            </form>
           </div>
           <div class="right">
             <h2>Devenir premium ?</h2>
             <p>Devenir premium, c'est avoir accès à un nombre illimité de notifications !</p>
             <p>Pour seulement {{getPremiumCost}} euros par mois, obtenez une réelle force marketing pour votre commerce.</p>
+            <p>Vous pourrez également créer des sous-entités pour pouvoir gérer et observer les statistiques d'une chaîne de magasins !</p>
           </div>
         </div>
       </div>
 
-    </modal>-->
+    </modal>
     <div class="nav-bar">
       <div class="premium-container">
         <div class="premium" v-if="isPremium">Vous êtes premium !</div>
-        <!--<div class="become-premium"  v-if="!isPremium">Devenez premium</div>-->
+        <div
+          class="become-premium"
+          v-if="!isPremium"
+          @click="showPaymentModal">Devenez premium</div>
       </div>
       <router-link to="Dashboard">
         <div class="nav-item">
@@ -114,6 +99,9 @@ export default {
     }
   },
   methods: {
+    showPaymentModal () {
+      this.$modal.show('premium-modal')
+    },
     logout: function () {
       this.$store.dispatch(AUTH_LOGOUT, {}).then(() => {
         this.$router.push('Login')
