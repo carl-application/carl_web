@@ -11,7 +11,7 @@
     >
       <div class="container">
         <h2>Affiliations concernées</h2>
-        <p>Vous ne pourrez exclure les données de votre carte {{currentBusinessName}} qu'en sélectionnant au moins une affiliation</p>
+        <p v-show="hasAffiliations">Vous ne pourrez exclure les données de votre carte {{currentBusinessName}} qu'en sélectionnant au moins une affiliation</p>
         <div class="affiliations-container">
           <div class="loader-container" v-if="areAffiliationsLoading">
             <div class="loader"></div>
@@ -22,7 +22,7 @@
             <div class="subtitle">Les statistiques affichées sont donc les vôtres</div>
           </div>
           <div class="loaded-container">
-            <div class="affiliation-item">
+            <div class="affiliation-item" v-show="hasAffiliations">
               <div
                 class="affiliation current"
                 @click="toggleCurrentSelection()"
