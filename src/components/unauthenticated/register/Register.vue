@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <img src="./../../assets/ic_carl.png" id="logo">
+    <img src="../../../assets/ic_carl.png" id="logo">
     <h2>Créons votre compte ensemble !</h2>
     <div class="error-container" v-if="hasError">
       <p>{{error}}</p>
@@ -189,10 +189,10 @@
 </template>
 
 <script>
-import {getAllImages, getAllLogos} from './../../utils/api'
+import {getAllImages, getAllLogos} from '../../../utils/api'
 import VueScroll from 'vuescroll/dist/vuescroll-slide'
-import {REGISTER_STATUS_LOADING} from '../../store/status/auth'
-import {REGISTER_REQUEST} from '../../store/actions/auth'
+import {REGISTER_STATUS_LOADING} from '../../../store/status/auth'
+import {REGISTER_REQUEST} from '../../../store/actions/auth'
 
 export default {
   components: {VueScroll},

@@ -2,7 +2,7 @@
   <div class="page blue-gradient-background">
     <div class="form-container">
       <form class="login" @submit.prevent="login">
-        <img src="./../../assets/ic_carl.png" id="logo">
+        <img src="../../../assets/ic_carl.png" id="logo">
         <h2>Vous avez déjà un compte CARL ?</h2>
         <input
           required v-model="username"
@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import {AUTH_REQUEST} from '../../store/actions/auth'
-import {AUTH_STATUS_ERROR_CREDENTIALS, AUTH_STATUS_LOADING} from '../../store/status/auth'
+import {AUTH_REQUEST} from '../../../store/actions/auth'
+import {AUTH_STATUS_ERROR_CREDENTIALS, AUTH_STATUS_LOADING} from '../../../store/status/auth'
 
 export default {
   name: 'login',
