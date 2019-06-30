@@ -17,7 +17,11 @@
           placeholder="Description"></textarea>
         <div class="textarea-right">{{getDescriptionLength}}/300</div>
       </div>
-      <campaign-selector id="campaign-selector" @selected="campaignSelected"></campaign-selector>
+      <campaign-selector
+        id="campaign-selector"
+        @selected="campaignSelected"
+        v-if="!isAdmin"
+      ></campaign-selector>
       <div class="validation-error">
         <div class="validation" @click="send">
           <div v-if="!loading">Envoyer</div>
@@ -31,7 +35,7 @@
 
 <script>
 import CampaignSelector from './CampaignSelector'
-import {sendNotification} from './../../../utils/api'
+import {sendNotification, adminSendNotification} from './../../../utils/api'
 export default {
   components: {CampaignSelector},
   data () {
@@ -49,22 +53,35 @@ export default {
     },
     getDescriptionLength () {
       return this.description.length
+    },
+    isAdmin () {
+      return this.$store.getters.isAdmin
     }
   },
   methods: {
     campaignSelected (id) {
       this.selectedCampaignId = id
     },
+    sendWhenAdmin () {
+      this.error = null
+      this.loading = true
+
+      adminSendNotification(
+        this.title,
+        this.description
+      ).then((response) => {
+        this.sendingNotificationResponseHandler(response)
+      }).catch((error) => {
+        console.error(error)
+        this.notifyError()
+        this.clear()
+      })
+    },
     send () {
       if (this.loading) return
 
       if (!this.title || !this.description) {
         this.error = 'Tous les champs doivent être renseignés'
-        return
-      }
-
-      if (!this.selectedCampaignId || isNaN(this.selectedCampaignId)) {
-        this.error = 'Aucune audience n\'a été séléctionnée'
         return
       }
 
@@ -78,6 +95,16 @@ export default {
         return
       }
 
+      if (this.$store.getters.isAdmin) {
+        this.sendWhenAdmin()
+        return
+      }
+
+      if (!this.selectedCampaignId || isNaN(this.selectedCampaignId)) {
+        this.error = 'Aucune audience n\'a été séléctionnée'
+        return
+      }
+
       this.error = null
       this.loading = true
 
@@ -86,21 +113,25 @@ export default {
         this.title,
         this.description
       ).then((response) => {
-        if (response.data.success) {
-          this.notifySuccess(response.data.nbMatchedUsers)
-        } else {
-          if (response.data.error === 2) {
-            this.notifyError('Vous avez dépassé la limite autorisée de notifications en version gratuite (500 par mois) !')
-          } else {
-            this.notifyError('La notification n\'a pas correctement été envoyée')
-          }
-        }
-        this.clear()
+        this.sendingNotificationResponseHandler(response)
       }).catch((error) => {
         console.error(error)
         this.notifyError()
         this.clear()
       })
+    },
+    sendingNotificationResponseHandler (response) {
+      if (response.data.success) {
+        this.notifySuccess(response.data.nbMatchedUsers)
+      } else {
+        if (response.data.error === 2) {
+          const nbNotificationsPerMonth = this.$store.getters.nbFreeNotificationsPerMonth
+          this.notifyError(`Vous avez dépassé la limite autorisée de notifications en version gratuite (${nbNotificationsPerMonth} par mois) !`)
+        } else {
+          this.notifyError('La notification n\'a pas correctement été envoyée')
+        }
+      }
+      this.clear()
     },
     notifySuccess (nbMatchedUsers) {
       this.$notify({

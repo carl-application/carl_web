@@ -23,6 +23,7 @@ import {
   API_REGISTER_URL,
   API_SEND_AFFILIATION_KEY,
   API_SEND_NOTIFICATION,
+  API_ADMIN_SEND_NOTIFICATION,
   API_SEX_PARITY_COUNT_URL,
   API_SUSCRIBE_TO_PREMIUM
 } from './api-routes'
@@ -146,6 +147,20 @@ const sendNotification = (targetCampaignId, title, description) => new Promise((
     description: description
   }
   axios.post(API_SEND_NOTIFICATION, null, {params})
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+const adminSendNotification = (title, description) => new Promise((resolve, reject) => {
+  const params = {
+    title: title,
+    description: description
+  }
+  axios.post(API_ADMIN_SEND_NOTIFICATION, null, {params})
     .then((response) => {
       resolve(response)
     })
@@ -365,5 +380,6 @@ export {
   changePassword,
   sendAffiliationKey,
   getAffiliations,
-  deleteBusiness
+  deleteBusiness,
+  adminSendNotification
 }

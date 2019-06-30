@@ -31,7 +31,7 @@ const actions = {
       try {
         const response = await getCurrentBusinessInfos()
         commit(REQUEST_CURRENT_BUSINESS_SUCCESS, response.data)
-        resolve(response.data)
+        resolve(response)
       } catch (error) {
         commit(REQUEST_CURRENT_BUSINESS_ERROR, error)
         reject(error)

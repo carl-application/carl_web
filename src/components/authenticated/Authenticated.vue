@@ -144,8 +144,20 @@ export default {
   },
   mounted () {
     // this.$router.push('Dashboard')
-    this.$store.dispatch(REQUEST_CURRENT_BUSINESS).then(() => {
+    this.$store.dispatch(REQUEST_CURRENT_BUSINESS).then((response) => {
       this.$store.dispatch(REQUEST_AFFILIATIONS, this.$store.getters.isPremium)
+    }).catch((error) => {
+      console.log(`Getting business error = ${error}`)
+      this.$store.dispatch(AUTH_LOGOUT, {}).then(() => {
+        this.$router.push('Login')
+        this.$notify({
+          group: 'notifications',
+          type: 'error',
+          duration: '5000',
+          title: 'Votre connexion n\'est plus active',
+          text: ''
+        })
+      })
     })
     this.$store.dispatch(REQUEST_SETTINGS)
   }
