@@ -147,8 +147,7 @@ export default {
     // this.$router.push('Dashboard')
     this.$store.dispatch(REQUEST_CURRENT_BUSINESS).then((response) => {
       this.$store.dispatch(REQUEST_AFFILIATIONS, this.$store.getters.isPremium)
-    }).catch((error) => {
-      console.log(`Getting business error = ${error}`)
+    }).catch((_) => {
       this.$store.dispatch(AUTH_LOGOUT, {}).then(() => {
         this.$router.push('Login')
         this.$notify({

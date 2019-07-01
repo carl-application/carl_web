@@ -260,11 +260,9 @@ export default {
         this.campaignPeriodStart,
         this.campaignPeriodEnd
       ).then((response) => {
-        console.log(`reponse.data = ${JSON.stringify(response.data)}`)
         this.campaigns.unshift(response.data)
         this.loading = false
-      }).catch((error) => {
-        console.error(`Error creating campaign = ${error}`)
+      }).catch((_) => {
       })
     },
     selectCampaign (index) {

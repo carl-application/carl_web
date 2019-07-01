@@ -69,8 +69,7 @@ export default {
             ]
           }
         })
-        .catch((error) => {
-          console.log(`Error getting sex parities = ${error}`)
+        .catch((_) => {
         })
     }
   },

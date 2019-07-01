@@ -49,7 +49,6 @@ const getVisitsCountForDate = (date, subEntities = [], showCurrentWhenSubEntitie
       resolve(response)
     })
     .catch((error) => {
-      console.log(`error getting visits count`)
       reject(error)
     })
 })
@@ -65,7 +64,6 @@ const getVisitsCountForLastMonths = (date, subEntities = [], showCurrentWhenSubE
       resolve(response)
     })
     .catch((error) => {
-      console.log(`error getting visits count`)
       reject(error)
     })
 })
@@ -202,7 +200,6 @@ const register = (username, password, name, address, fidelityMax, description, a
     }
   }
 
-  console.log(`Params = ${JSON.stringify(params)}`)
   axios.post(API_REGISTER_URL, params)
     .then((response) => {
       resolve(response)

@@ -60,7 +60,6 @@ const actions = {
     return new Promise(async (resolve, reject) => {
       commit(REGISTER_REQUEST)
       try {
-        console.log(`registrationData.affiliationKey = ${registrationData.affiliationKey}`)
         const registerResponse = await register(
           registrationData.email,
           registrationData.password,

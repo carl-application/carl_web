@@ -342,7 +342,6 @@ export default {
     },
     setPlace (address) {
       this.selectedAddress = address.formatted_address
-      console.log(`this.business.address = ${JSON.stringify(this.business.address)}`)
     },
     addTag () {
       this.tags.push(this.tagModel)
@@ -387,7 +386,6 @@ export default {
       try {
         const response = await updateBusiness(params)
         if (response.status !== 200) {
-          console.log(`Error update business`)
         } else {
           this.business = response.data
           this.selectedImage = this.business.image
@@ -395,7 +393,6 @@ export default {
         }
         this.loading = false
       } catch (error) {
-        console.log(`Error updating business : ${error}`)
         this.loading = false
       }
     }

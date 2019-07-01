@@ -170,7 +170,6 @@ export default {
         this.existingImages = response.data
         this.isLoadingExistingImages = false
       } catch (error) {
-        console.log(`Error retrieving all images ${error}`)
         this.isLoadingExistingImages = false
       }
     },
@@ -181,7 +180,6 @@ export default {
         this.existingLogos = response.data
         this.isLoadingExistingLogos = false
       } catch (error) {
-        console.log(`Error retrieving all logos ${error}`)
         this.isLoadingExistingLogos = false
       }
     },
@@ -241,7 +239,6 @@ export default {
         this.loadExistingImages()
         this.loadExistingLogos()
       } catch (error) {
-        console.log(`Error deleting image ${error}`)
         this.isLoadingExistingImages = false
       }
     },
