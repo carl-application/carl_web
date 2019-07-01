@@ -47,6 +47,7 @@
     <div class="nav-bar">
       <div class="premium-container">
         <div class="premium" v-if="isPremium">Vous êtes premium !</div>
+        <div class="premium" v-if="isAdmin">Vous êtes Admin !</div>
         <!--<div class="become-premium"  v-if="!isPremium">Devenez premium</div>-->
       </div>
       <router-link to="Dashboard">
@@ -139,7 +140,7 @@ export default {
       return this.$store.getters.premiumCost
     },
     isPremium () {
-      return this.$store.getters.isAdmin || this.$store.getters.isPremium
+      return this.$store.getters.isPremium
     }
   },
   mounted () {
